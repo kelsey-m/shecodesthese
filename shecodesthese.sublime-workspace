@@ -1,0 +1,982 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"determine",
+				"determineChildStyleState"
+			],
+			[
+				"show",
+				"show_on_active"
+			],
+			[
+				"child_",
+				"child_opacity"
+			],
+			[
+				"panel_",
+				"panel_info_blocks"
+			],
+			[
+				"cur_",
+				"cur_title"
+			],
+			[
+				"desc_is",
+				"desc_is_hiding"
+			],
+			[
+				"title_",
+				"title_is_hidden"
+			],
+			[
+				"overlay",
+				"overlay_opacity"
+			],
+			[
+				"stage",
+				"stage_w"
+			],
+			[
+				"background",
+				"backgroundPosition"
+			],
+			[
+				"is_",
+				"is_active"
+			],
+			[
+				"width",
+				"width_perc"
+			],
+			[
+				"stahe",
+				"stage_width"
+			],
+			[
+				"parse",
+				"parseInt"
+			],
+			[
+				"consoe",
+				"console.log"
+			],
+			[
+				"Webkit",
+				"WebkitTransition"
+			],
+			[
+				"cons",
+				"console.log"
+			],
+			[
+				"is_prev",
+				"is_previous"
+			],
+			[
+				"cur_panel",
+				"cur_panel_num"
+			],
+			[
+				"is_s",
+				"is_shown"
+			],
+			[
+				"pr",
+				"props\tReact: this.props."
+			],
+			[
+				"cur_lnk",
+				"cur_link_copy"
+			],
+			[
+				"cur_link",
+				"cur_link_copy"
+			],
+			[
+				"lnk",
+				"link_copy"
+			],
+			[
+				"co",
+				"console.log"
+			],
+			[
+				"create",
+				"createElement()\tReact"
+			],
+			[
+				"Bubble",
+				"BubbleExperiment"
+			],
+			[
+				"is",
+				"is_active"
+			],
+			[
+				"trans",
+				"translate"
+			],
+			[
+				"component",
+				"componentDidMount\tLife Cycle Method"
+			],
+			[
+				"po",
+				"position"
+			],
+			[
+				"resize",
+				"resizeImgs"
+			],
+			[
+				"tr",
+				"target\tAttr"
+			],
+			[
+				"str",
+				"stringify"
+			],
+			[
+				"json",
+				"json_decode"
+			],
+			[
+				"json_",
+				"json_encode"
+			],
+			[
+				"array_k",
+				"array_key_exists"
+			],
+			[
+				"select-jo",
+				"select-job-type"
+			],
+			[
+				"sl",
+				"selection"
+			],
+			[
+				"spo",
+				"spotifyFeed"
+			],
+			[
+				"lneg",
+				"length"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_index.scss",
+			"settings":
+			{
+				"buffer_size": 2482,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_global.scss",
+			"settings":
+			{
+				"buffer_size": 2014,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_prozess.scss",
+			"settings":
+			{
+				"buffer_size": 2799,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_kontakt.scss",
+			"settings":
+			{
+				"buffer_size": 3388,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/pro-axxess.sublime-project",
+			"settings":
+			{
+				"buffer_size": 45,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_unternehmen.scss",
+			"settings":
+			{
+				"buffer_size": 3210,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/custom.scss",
+			"settings":
+			{
+				"buffer_size": 160,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_leistungen.scss",
+			"settings":
+			{
+				"buffer_size": 4816,
+				"encoding": "UTF-8",
+				"line_ending": "Unix",
+				"name": "#pu27670{"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website"
+	],
+	"file_history":
+	[
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_unternehmen.scss",
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/leistungen.html",
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/index.html",
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/prozess.html",
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/kontakt.html",
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/unternehmen.html",
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/custom.scss",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/css/front.scss",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/css/_base.scss",
+		"/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/custom_index.scss",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/MainInfo.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/App.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/BubbleExperiment.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/ImageExplosionExperiment.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/Project.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/PanelView.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/PanelInfo.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/Panel.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/index.html",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/webpack.config.js",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/package.json",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/assets/data/projects.json",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/plugins/Bubble.js",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/untitled.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/events/EVENTS.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/PanelContainer.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/public/bundle.js",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/public/bundle.js.map",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/style/COLORS.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/COLORS.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/Stage.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/.babelrc",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build/COLORS.js",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/app/index.jsx",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/app/MainInfo.jsx",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/ApplicantPropertyDAO.php",
+		"/Users/kelseyvaughnold/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/kelseyvaughnold/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/Users/kelseyvaughnold/Sites/Experiments/bubbles/js/src/Bubble.js",
+		"/Users/kelseyvaughnold/Documents/Libraries/js/utils/translate.js",
+		"/Users/kelseyvaughnold/Sites/Experiments/bubble-fish/js/BubbleFish",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/index.html",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/utils/ImageManipulator.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/views/ProjectView.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/views/HeaderView.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/css/style.scss",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/tpl/main.html",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/views/MainView.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/views/ProjectPaneView.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/tpl/project.html",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/models/MainModel.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/models/ProjectModel.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/app.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/utils/TemplateLoader.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/views/FooterView.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/js/views/InfoPaneView.js",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/data/_projects.json",
+		"/Users/kelseyvaughnold/Sites/SheCodesThese/data/projects.json",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/index.html",
+		"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/tpl/main.html",
+		"/Users/kelseyvaughnold/Documents/Clients/Ardis/Paradigm/Website/index.html",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/Cushman Play To Learn/dev/ajax.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/Cushman Play To Learn/dev/js/custom.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/Cushman Play To Learn/dev/inc/buyPuzzleWindow.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/Cushman Play To Learn/dev/js/share.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/Cushman Play To Learn/dev/inc/donateWindow.php",
+		"/Users/kelseyvaughnold/Sites/js/routers/Router.js",
+		"/Users/kelseyvaughnold/Sites/js/views/StageView.js",
+		"/Users/kelseyvaughnold/Sites/js/views/account/StageView.js",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/docs/doc-recruiters-job-skills.php",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/docs/doc-applicants-skills.php",
+		"/Users/kelseyvaughnold/Sites/js/test/post_recruiter_job_property.js",
+		"/Users/kelseyvaughnold/Sites/js/views/SignUpSidePanelView.js",
+		"/Users/kelseyvaughnold/Sites/js/test/get_recruiter_properties.js",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/dao/ApplicantDAO.php",
+		"/Users/kelseyvaughnold/Sites/js/test/post_applicant_property.js",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/dao/RecruiterJobDAO.php",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/dao/UserDAO.php",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/model/Parser.php",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/dao/ApplicantPropertyDAO.php",
+		"/Users/kelseyvaughnold/Sites/js/test/get_applicant_properties.js",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/dao/RecruiterPropertyDAO.php",
+		"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/dao/DAO.php",
+		"/Users/kelseyvaughnold/Sites/js/views/account/applicant/PersonalityPageView.js",
+		"/Users/kelseyvaughnold/Sites/js/routers/account/Router.js",
+		"/Users/kelseyvaughnold/Sites/templates/account/applicant/chat-conversation-page.html",
+		"/Users/kelseyvaughnold/Sites/templates/account/applicant/chat-right-column.html",
+		"/Users/kelseyvaughnold/Sites/js/views/account/applicant/ChatConversationPageView.js",
+		"/Users/kelseyvaughnold/Sites/js/views/account/recruiter/EditSearchPageView.js",
+		"/Users/kelseyvaughnold/Sites/css/base/account/_layout.scss",
+		"/Users/kelseyvaughnold/Sites/css/modules/account/_pages.scss",
+		"/Users/kelseyvaughnold/Sites/js/test/authenticate.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/views/account/recruiter/EditSearchPageView.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/views/account/recruiter/GoGigSearchesPageView.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/views/account/StageView.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/views/PageView.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/views/MainNavView.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/routers/account/Router.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/views/account/applicant/PersonalityPageView.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/main.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/views/StageView.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/models/StateModel.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/routers/front/index/work/Router.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/routers/Router.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/events/Event.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/templates/modal-activity.html",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/test/post_recruiter_job_like.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/test/get_recruiter_job_property.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/RecruiterDAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/models/account/RecruiterJobLikeModel.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/account/index.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/models/account/RecruiterJobBenefitModel.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/model/RecruiterJobLikeModel.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/LookupTableDAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/UserDAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/DAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/AppDAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/ApplicantDAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/AssetsDAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao/ChatDAO.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/composer.json",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/docs/doc-recruiters-job-benefits.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/docs/doc-recruiters-job-likes.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/docs/doc-applicants-degrees.php",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/test/post_recruiter_job_benefit.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/test/get_recruiter_properties.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/test/post_recruiter_property.js",
+		"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js/test/delete_recruiter_job_skill.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"<current file>",
+			"/Users/kelseyvaughnold/Documents/Projects/shecodesthese/Website/src/build",
+			"<open files>,<open folders>",
+			"",
+			"/Users/kelseyvaughnold/Sites/SheCodesThese/js",
+			"/Users/kelseyvaughnold/Sites/js",
+			"/Users/kelseyvaughnold/Sites/api/gogig-parse-api/v1/src/dao",
+			"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/js",
+			"/Users/kelseyvaughnold/Documents/Clients/MAD dev/GoGig/Dev/gogig/api/gogig-parse-api/v1/src/dao",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"u55469",
+			"#u2345-4",
+			"#u2464-4",
+			"u702-8",
+			"#u31389",
+			"#u31310-4",
+			"u55476",
+			"pu119-10",
+			"u116_align_to_page",
+			"u31403",
+			"!important",
+			"u1280-3-bw",
+			"203",
+			"u1227",
+			"560",
+			"u1313-4-bw",
+			"u31284-3",
+			"u1280-3",
+			"u1227-bw",
+			"u28534-4",
+			"u48546",
+			"u27968-6",
+			"#u27968-6",
+			"pu27906",
+			"pu28086",
+			"getChildStyle",
+			"child_top",
+			"ACTIVATE",
+			"child_top",
+			"transitionend",
+			"setToAnimate",
+			"con",
+			"child_display",
+			"checkActiveState",
+			"overlay_left",
+			"is_showing",
+			"consol",
+			"transitionend",
+			"override_overlay_mouse",
+			"handleOverlayAnimState",
+			"off(",
+			"overlay_opacity",
+			"addChildTween",
+			"dispose",
+			"determineOpenState",
+			"determineOverlayOpacity",
+			"prev_panel_num",
+			"cur_hide_num",
+			"prev_panel_num",
+			"cons",
+			"getPanelStyle",
+			".on(",
+			"prev_panel_num",
+			"transitionend",
+			"INACTIVE_Y",
+			"describePanelInfoBlocks",
+			"describe",
+			"desc_is_hiding",
+			"is_hiding_update",
+			"show_on_active",
+			"cur_show_num",
+			"is_showing_panel",
+			"is_hiding_panel",
+			"is_showing_panel",
+			"con",
+			"is_showing_update",
+			"desc_is_hiding",
+			"is_hiding_update",
+			"desc_is_hiding",
+			"desc_is_animating_out",
+			"is_hiding_update",
+			"title_is_animating_out",
+			"is_hiding",
+			"opacity",
+			"desc_is_hidden",
+			"is_showing_update",
+			"desc_is",
+			"cons",
+			"show",
+			"state.show",
+			"is_hiding_update",
+			"section",
+			"transitionEnd",
+			"transitionE",
+			"setCurrentPanelState",
+			"is_showing_panel",
+			"to_opacity",
+			"console",
+			"prev_panel_num =",
+			"setTimeout",
+			"stage_w",
+			"origin",
+			"BUBBLE_HEIGHT",
+			"EDGE_PADDING_X",
+			"BUBBLE_WIDTH",
+			"is_showing_panel",
+			"setCurrentPanelState",
+			"is_showing_panel",
+			"is_showing_update",
+			"is_open",
+			"is_",
+			"WebkitTransform",
+			"Timing",
+			"timing",
+			"Timing",
+			"transform",
+			"con",
+			"shellList",
+			"opac",
+			"opacity",
+			"reset",
+			"cons",
+			"update",
+			"mouse_y",
+			"updateMousePos",
+			"cur_panel_num =",
+			"cur_panel_num",
+			"updateMousePos",
+			"window",
+			"trigger",
+			"conso",
+			"screen_height",
+			"screen_width",
+			"img",
+			"componentW",
+			"onComponent",
+			"SMALL_SCREEN_HEIGHT",
+			"window"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"550",
+			"child_top",
+			"override_overlay_scroll",
+			"title_is_hiding",
+			"stage_height",
+			"stage_width",
+			"img_el",
+			"COPY_TRANS",
+			"OPACITY_TRANS",
+			"TRANS",
+			"0.15s",
+			"is_hiding_update",
+			"is_showing_panel",
+			"TITLE_OPACITY_TRANS",
+			"is_showing",
+			"style",
+			"\"desc\":",
+			"\"title\":",
+			"\"height\":",
+			"\"width\":",
+			"this.STYLE",
+			"this.LOGO_STYLE",
+			"this.HEADER_STYLE",
+			"this.SECTION_LINK_STYLE",
+			"this.CONNECT_LINK_STYLE",
+			"this.LIST_STYLE",
+			"this.TAB_STYLE",
+			"this.constructor.TAB_STYLE",
+			"this.constructor.LIST_STYLE",
+			"this.constructor.CONNECT_LINK_STYLE",
+			"this.constructor.SECTION_LINK_STYLE",
+			"this.constructor.HEADER_STYLE",
+			"this.constructor.LOGO_STYLE",
+			"this.constructor.STYLE",
+			"child_style",
+			"getChildStyle",
+			"project_holder",
+			"screen_width",
+			"BUILD_DIR",
+			"mouse_y",
+			"mouse_x",
+			"xscale",
+			"self.templateLoader",
+			"this.templateLoader",
+			"templateLoader:",
+			"TemplateLoader",
+			"templateLoader",
+			"padding-right",
+			".pr",
+			"puzzleSize",
+			"like",
+			"JobLike",
+			"benefits",
+			"Benefits",
+			"recruiterEditJob",
+			"recruiterEditSearch",
+			"personality_selection",
+			"PersonalitySelection",
+			"",
+			"recruiter",
+			"Recruiter",
+			"",
+			"recruiter",
+			"apiSuccess",
+			"recruiter",
+			"Recruiter",
+			"RECRUITER",
+			"@apiGroup Applicant_Skills",
+			"",
+			"skill",
+			"Skill",
+			"apiSuccess",
+			"recruiter",
+			"Recruiter",
+			"applicant",
+			"RECRUITER",
+			"Recruiter",
+			"RECRUITER",
+			"recruiter",
+			"lookup_info",
+			"ExperienceSummaryView",
+			"gogig",
+			"NewJobPageView",
+			"dashboard"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_index.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2482,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1624,
+								1624
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1241.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_global.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2014,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1446,
+								1446
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1516.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_prozess.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2799,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								549,
+								523
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_kontakt.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3388,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2916,
+								2916
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 2614.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/pro-axxess.sublime-project",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 45,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_unternehmen.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3210,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								448,
+								448
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/custom.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 160,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								160,
+								160
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/Users/kelseyvaughnold/Documents/Clients/Pro Axxess/Website/css/sass/_custom_leistungen.scss",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4816,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2194,
+								2194
+							]
+						],
+						"settings":
+						{
+							"auto_name": "#pu27670{",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1901.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "shecodesthese.sublime-project",
+	"replace":
+	{
+		"height": 46.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 248.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

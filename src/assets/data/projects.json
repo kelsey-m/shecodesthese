@@ -1,0 +1,32 @@
+{ 
+    "projects": [
+        {
+            "src": "/assets/img/projects/gogig.jpg",
+            "position": "50% 70%",
+            "width": "100%",
+            "height": "100%",
+            "title": "GoGig",
+            "desc": "A job search and recruiting platform.  My roles were developing the open REST API for the platform, as well as the front end of the web app, and the front end of the marketing website for the platform.  Core Technologies: Javascript, Backbone, PHP, Slim",
+            "link": "https://itunes.apple.com/us/app/gogig/id1100745625?mt=8",
+            "link_copy": "View in App Store"
+        },
+        {
+            "src": "/assets/img/projects/mad-greetings.jpg",
+            "position": "50% 0",
+            "width": "100%",
+            "height": "100%",
+            "title": "MAD Greetings",
+            "desc": "An augmented realty greeting card app.  My role was developing the open REST API for the app.  Core Technologies: PHP, Slim",
+            "link": "https://itunes.apple.com/us/app/mad-greetings/id1063290577?mt=8",
+            "link_copy": "View in App Store"
+        },
+        {
+            "src": "/assets/img/projects/cluevideo.jpg",
+            "position": "50% 20%",
+            "width": "100%",
+            "height": "100%",
+            "title": "Clue Video",
+            "desc": "A business and classifieds video directory.  My roles were developing the Android and iOS app.  Core Technologies: Javascript, Cordova/Phonegap, Backbone, PHP, Slim"
+        }
+    ]
+}
