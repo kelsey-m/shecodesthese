@@ -11,6 +11,8 @@ class PanelInfo extends React.Component {
     }
     //--------------------------------- declareConstants
     declareConstants(){
+        this.SMALL_MAX_WIDTH            = 700;
+
         this.declareStyleConstants();
     }
     //--------------------------------- declareStyleConstants
@@ -20,34 +22,31 @@ class PanelInfo extends React.Component {
         this.COPY_TRANS                 = ' 1500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)';
         this.OPACITY_COPY_TRANS         = 'opacity 250ms linear';
         this.ANIM_OFFSET                = 40;
-        this.TITLE_Y                    = 24;
+        this.TITLE_Y                    = 44;
         this.HIDDEN_TITLE_Y             = this.TITLE_Y + this.ANIM_OFFSET;
-        this.DESC_Y                     = 62;
+        this.DESC_Y                     = 82;
         this.HIDDEN_DESC_Y              = this.DESC_Y + this.ANIM_OFFSET;
+        this.MARGIN                     = 27;
+        this.SMALL_MARGIN               = 15;
+        this.X                          = this.MARGIN;
+        this.SMALL_X                    = this.SMALL_MARGIN;
+        this.WIDTH                      = 460;
+        this.SMALL_WIDTH                = '63%';
         this.STYLE                      = {
                                             position: 'fixed',
-                                            //bottom: 0,
-                                            top: 0,
-                                            width: '100%',
-                                            zIndex: 3,
-                                            backgroundColor: COLORS.LT_PINK,
+                                            top: '6.25%',
+                                            zIndex: 101,
                                             color: COLORS.DRK_GRAY,
-                                            padding: '0 24px',
-                                            WebkitTransition: this.TRANS,
-                                            MozTransition: this.TRANS,
-                                            OTransition: this.TRANS,
-                                            transition: this.TRANS,
-                                            WebkitTransform: 'translateZ(0)',
-                                            MozTransform: 'translateZ(0)',
-                                            OTransform: 'translateZ(0)',
-                                            transform: 'translateZ(0)',
-                                            boxSizing: 'border-box'
+                                            padding: '0 1.4em',
+                                            boxSizing:'border-box'
         };
         //position these with 
         //translate for smooth anim
         this.TITLE_STYLE                = {
                                             position: 'absolute', 
                                             margin: 0,
+                                            width: '90%',
+                                            paddingBottom: 8,
                                             WebkitTransition: '-webkit-transform' + this.COPY_TRANS + ',' + this.OPACITY_COPY_TRANS,
                                             MozTransition: '-moz-transform' + this.COPY_TRANS + ',' + this.OPACITY_COPY_TRANS,
                                             OTransition: '-o-transform' + this.COPY_TRANS + ',' + this.OPACITY_COPY_TRANS,
@@ -57,8 +56,8 @@ class PanelInfo extends React.Component {
         };            
         this.DESC_STYLE                 = {  
                                             position: 'absolute',
-                                            maxWidth: 600,
                                             margin: 0,
+                                            width: '85%',
                                             lineHeight: 1.1,
                                             fontSize: '0.85em',
                                             WebkitTransition: '-webkit-transform' + this.COPY_TRANS + ',' + this.OPACITY_COPY_TRANS,
@@ -85,6 +84,7 @@ class PanelInfo extends React.Component {
             title_ty: this.HIDDEN_TITLE_Y,
             desc_opacity: 0,
             desc_ty: this.HIDDEN_DESC_Y,
+            hidden_desc_ty: this.HIDDEN_DESC_Y,
             title_is_hiding: false,
             desc_is_hiding: false,
             link: this.props.link,
@@ -95,7 +95,7 @@ class PanelInfo extends React.Component {
             section: this.props.section,
             show: this.props.show,
             hide: this.props.hide,
-            height: this.props.height
+            first_show: false
         };
     }
     //--------------------------------- render
@@ -118,10 +118,13 @@ class PanelInfo extends React.Component {
     //--------------------------------- determineStyle
     determineStyle(){
         var style = Object.assign({}, this.STYLE);
-        var to_height = 0;
+        style.left = (this.props.screen_width <= this.SMALL_MAX_WIDTH) ? 
+                        this.SMALL_X : this.X;
 
-        if(this.state.is_open) to_height = this.state.height;
-        style.height = to_height;
+        style.width = (this.props.screen_width <= this.SMALL_MAX_WIDTH) ? 
+                        this.SMALL_WIDTH : this.WIDTH;  
+
+        style.opacity = this.state.is_open ? 1 : 0;                        
 
         return style;
     }
@@ -135,7 +138,10 @@ class PanelInfo extends React.Component {
         //set tranistion delay for a hide
         if(this.state.title_opacity == 0) delay = '0.05s'; 
         //set transition delay for a show
-        else delay = '0s';
+        else{
+            delay = '0s';   
+            if(this.state.first_show) delay = '1.8s';
+        }        
 
         style.WebkitTransitionDelay = delay;
         style.MozTransitionDelay = delay;
@@ -151,17 +157,18 @@ class PanelInfo extends React.Component {
     //--------------------------------- determineDescStyle
     determineDescStyle(){
         var style = Object.assign({}, this.DESC_STYLE);
-        var delay;
-
-        if(this.props.screen_width <= 700) style.maxWidth = '80%';        
+        var delay;      
 
         style.opacity = this.state.desc_opacity;
 
         //set tranistion delay for a hide
         if(this.state.desc_opacity == 0) delay = '0s'; 
         //set transition delay for a show
-        else delay = '0.1s';  
-
+        else{
+            delay = '0.1s';  
+            if(this.state.first_show) delay = '1.9s';  
+        } 
+        
         style.WebkitTransitionDelay = delay;
         style.MozTransitionDelay = delay;
         style.OTransitionDelay = delay;
@@ -194,11 +201,11 @@ class PanelInfo extends React.Component {
                     propName != "oTransform" ){ return; }
 
                 //now not hitting this
-                self.setState({title_is_hiding: false});
+                self.setState({title_is_hiding: false, first_show: false});
 
                 //if opacity is 0
                 //update the title state
-                if( this.style.opacity == 0 && !self.state.desc_is_hiding){
+                if( this.style.opacity == 0 ){
                     self.onHideInfoComplete();
                 } 
 
@@ -227,10 +234,11 @@ class PanelInfo extends React.Component {
                     propName != "oTransitionEnd" ){ return; }
 
                 //trouble is we are never getting here    
-                self.setState({desc_is_hiding: false});
+                self.setState({desc_is_hiding: false, first_show: false});
                 //if opacity is 0
                 //update the desc state
-                if( this.style.opacity == 0 && !self.state.title_is_hiding ){
+                //if( this.style.opacity == 0 && !self.state.title_is_hiding ){
+                if( this.style.opacity == 0 ){                    
                     self.onHideInfoComplete();
                 } 
 
@@ -240,8 +248,8 @@ class PanelInfo extends React.Component {
                 else if(this.style.opacity == 1) self.onShowInfoComplete();
         });
     }
-    //--------------------------------- onHideInfoComplete
-    onHideInfoComplete(){
+    //--------------------------------- updateInfo
+    updateInfo(){
         var state = {};
         state.cur_title = this.state.title;
         state.cur_section = this.state.section;
@@ -250,14 +258,18 @@ class PanelInfo extends React.Component {
         state.cur_link_copy = this.state.link_copy;
         state.desc_is_hiding = false;
         state.title_is_hiding = false;
-
+        return state;
+    }
+    //--------------------------------- onHideInfoComplete
+    onHideInfoComplete(){
+        var state = this.updateInfo();
         //if different
         //also want to set is showing to true
         if( state.cur_title != this.state.cur_title && 
             state.cur_desc != this.state.cur_desc ) {
-            this.showInfo(); 
+            //set a is_show_ready prop
+            state.is_show_ready = true;
         }
-
         this.setState(state);
     }
     //--------------------------------- onShowInfoComplete
@@ -270,6 +282,7 @@ class PanelInfo extends React.Component {
     //--------------------------------- componentWillReceiveProps
     componentWillReceiveProps(nextProps){
         var self = this;
+
         var state = {
             title: nextProps.title, 
             desc: nextProps.desc,
@@ -281,18 +294,9 @@ class PanelInfo extends React.Component {
             hide: nextProps.hide
         }; 
 
-        //first time section is set
-        //set the cur_section
-        if(this.state.section == "" && nextProps.section != "") state.cur_section = nextProps.section;
-        //first time title is set
-        //set the cur_title
-        if(this.state.title == "" && nextProps.title != "") state.cur_title = nextProps.title;
-        //first time desc is set
-        //set the cur_desc
-        if(this.state.desc == "" && nextProps.desc != "") state.cur_desc = nextProps.desc;
-
         //delay setting is open
         if(!this.state.is_open && nextProps.is_open) {
+            state.first_show = true;
             this.isOpenTimeout = setTimeout(function(){
                 self.setState({is_open: true});
             }, 300);
@@ -302,40 +306,36 @@ class PanelInfo extends React.Component {
             state.is_open = nextProps.is_open;
         }
 
-        //keep track of the opacity and the ty
-        //states of the title and the desc
-        //that way we know when for certain 
-        //a transition will begin
-
-        //do not want to show if hiding
-        //if( this.state.is_open && nextProps.show && 
+        //handle showing and hiding
         if( nextProps.is_open && nextProps.show && 
             !this.state.desc_is_hiding && !this.state.title_is_hiding ){
-            this.showInfo();
+            state = Object.assign(state, this.updateInfo());
+            state.is_show_ready = true;
         }
-        //but do want to hide if showing
-        else if( nextProps.hide || 
+        //also want to hide it on hide, if closed
+        //or if info data has changed
+        else if( nextProps.hide || !nextProps.is_open ||
             (this.state.title != "" && nextProps.title != this.state.title) ) {
             this.hideInfo();
         }
 
-        console.log("nextProps.show = " + nextProps.show);
-        console.log("nextProps.is_open = " + nextProps.is_open);
-        console.log("this.state.desc_is_hiding = " + this.state.desc_is_hiding);
-        console.log("this.state.title_is_hiding = " + this.state.title_is_hiding);
-        //also want to check if the title 
-        //or desc has changed --->
-        //if so, set hiding state to true
         this.setState(state);
+    }
+    //--------------------------------- componentDidUpdate
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.is_show_ready) this.showInfo();
+
+        if(prevState.title != this.state.title) this.hideInfo();
     }
     //--------------------------------- hideInfo
     hideInfo(){
+        //make sure the hide isn't delayed from
         var state = {};
         state.title_opacity = 0;
         state.title_ty = this.HIDDEN_TITLE_Y; 
 
         state.desc_opacity = 0;
-        state.desc_ty = this.HIDDEN_DESC_Y;
+        state.desc_ty = this.state.hidden_desc_ty;
 
         //if properties are different
         //we know that a transition will begin
@@ -350,26 +350,26 @@ class PanelInfo extends React.Component {
     //--------------------------------- showInfo
     showInfo(){
         var state = {};
-
-        //update the copy
-        //before showing
-        state.cur_title = this.state.title;
-        state.cur_section = this.state.section;
-        state.cur_desc = this.state.desc;
-        state.cur_link = this.state.link;
-        state.cur_link_copy = this.state.link_copy;
-
-        //and not currently hiding
-        //set the title and the desc properties 
-        //to show 
+        //set the opacities to 1
+        //and set the translate y 
+        //values to their destinations
+        //!!!!!!!!!!!!!!!!!!
+        //issue here is 
+        //this.state.cur_title is not 
+        //accurate when you click 
+        //a btn to change scroll pos
+        console.log("showInfo = " + this.state.cur_title);
         state.title_opacity = 1;
         state.title_ty = this.TITLE_Y; 
 
         state.desc_opacity = 1;
-        state.desc_ty = this.DESC_Y;
+        var title_node = $(ReactDOM.findDOMNode(this.refs.title));
+        state.desc_ty = state.title_ty + title_node.outerHeight();
+        state.hidden_desc_ty = state.desc_ty + this.ANIM_OFFSET;
 
         state.title_is_hiding = false;
         state.desc_is_hiding = false;
+        state.is_show_ready = false;
 
         this.setState(state);
     }

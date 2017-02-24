@@ -2,7 +2,7 @@
   "name": "shecodesthese",
   "version": "1.0.0",
   "description": "shecodesthese website",
-  "main": "index.js",
+  "main": "main.jsx",
   "scripts": {
     "dev": "webpack -d --watch",
     "build": "webpack -p",

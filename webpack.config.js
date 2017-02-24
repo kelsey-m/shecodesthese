@@ -7,7 +7,7 @@ var BUILD_DIR = path.resolve(__dirname, 'src/build');
 var config = {
     entry: [
         'webpack/hot/dev-server',
-        BUILD_DIR + '/App.jsx'
+        BUILD_DIR + '/main.jsx'
     ],
     output: {
         path: PUBLIC_DIR,

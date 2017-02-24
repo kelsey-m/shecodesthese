@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PanelInfo from './PanelInfo.jsx';
+// import PanelInfo from './PanelInfo.jsx';
 import Project from './Project.jsx';
 import BubbleExperiment from './BubbleExperiment.jsx';
 import ImageExplosionExperiment from './ImageExplosionExperiment.jsx';
@@ -15,6 +15,9 @@ class PanelView extends React.Component {
     }
     //--------------------------------- declareConstants
     declareConstants(){
+        this.EXPERIMENT                 = "Experiment";
+        this.PROJECT                    = "Project";
+
         this.declareStyleConstants();
     }
     //--------------------------------- declareStyleConstants
@@ -56,14 +59,7 @@ class PanelView extends React.Component {
                                             top: 0,
                                             height: '100%',
                                             width: '100%'
-        };
-        /*this.SCROLL_EL_STYLE            = {
-                                            position: 'fixed',
-                                            width: '100%',
-                                            height: '100%',
-                                            overflowY: 'scroll',
-                                            WebkitOverflowScrolling: 'touch'
-        }; */                                       
+        };                                   
         this.SCROLL_CONTENT_EL_STYLE      = {
                                             position: 'relative',
                                             width: '100%',
@@ -71,28 +67,21 @@ class PanelView extends React.Component {
         };
         this.PROJECTS_SRC               = '/assets/data/projects.json'; 
         this.INACTIVE_Y                 = '100%';   
-        this.PANEL_INFO_HEIGHT          = 200;
-        this.PANEL_INFO_HEIGHT_SMALL    = 160;
     }
     //--------------------------------- setInitialState    
     setInitialState(){
-        var panel_info_height = this.getPanelInfoHeight();
         this.state = { 
             is_open: this.props.is_open,
             prev_panel_num: -1,
             cur_panel_num: 0,
             cur_show_num: -1,
             cur_hide_num: -1,
-            cur_title: "",
-            cur_desc: "",
-            cur_link: "", 
-            cur_link_copy: "",
             panel_direction: 1,
             projects: [],
             experiments: [
                 {   ref: ImageExplosionExperiment,
                     title: "Image Explosion",
-                    desc: "Bitmap manipulation experiment.  Technologies: Javascript, ES6, HTML5, CSS3",
+                    desc: "Bitmap manipulation experiment.  Technologies: Javascript, ES7, HTML5, CSS3",
                     link: "",
                     link_copy: "View on Codepen",
                     width: "100%",
@@ -113,10 +102,7 @@ class PanelView extends React.Component {
             override_overlay_scroll: false,
             change_panel_scroll: 400,
             panel_info: [],
-            is_showing_panel: false,
-            is_hiding_panel: false,
-            panel_info_height: panel_info_height,
-            section: "Experiment"
+            section_name: this.EXPERIMENT
         };    
     }
     //--------------------------------- render
@@ -145,18 +131,6 @@ class PanelView extends React.Component {
                         {projects}
                     </div>
                     <div ref="overlay" style={overlay_style}></div>
-                    <PanelInfo 
-                        is_open={this.state.is_open}
-                        title={this.state.cur_title} 
-                        desc={this.state.cur_desc} 
-                        link={this.state.cur_link} 
-                        link_copy={this.state.cur_link_copy}
-                        show={this.state.is_showing_panel}
-                        hide={this.state.is_hiding_panel}
-                        screen_width={this.props.screen_width}
-                        screen_height={this.props.screen_height}
-                        height={this.state.panel_info_height}
-                        section={this.state.section} />
                 </div>
                 <div style={scroll_content_el_style} />
             </div>
@@ -170,78 +144,27 @@ class PanelView extends React.Component {
         }.bind(this));    
 
         //need to call the determine state functions here
-        this.determineStateByScrollY();
+        this.determineStateByScrollY(this.props.scroll_y);
 
         this.handleOverlayAnimState(); 
     }
-    //--------------------------------- determineStateByScrollY
-    determineStateByScrollY(){
-        //var scroll_y = window.scrollY;
-        // var scroll_y = this.panelView.scrollY;
-        var scroll_y = this.props.scroll_y;
-        console.log("scroll_y = " + scroll_y);
-        this.determineCurrentPanel(scroll_y);
-        this.determineOverlayOpacity(scroll_y);
-        this.determineOpenState(scroll_y);
-    }
-    //--------------------------------- handleOverlayAnimState
-    handleOverlayAnimState(){
-        //set listener for anim complete
-        //so that we can set the overlay
-        //to display none 
-        var self = this;
-        this.overlay_el = $(ReactDOM.findDOMNode(this.refs.overlay));
-        $(this.overlay_el).off();
-        $(this.overlay_el).on(
-            "transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd", 
-            function(){
-                if(this.style.opacity == 0) self.setState({overlay_left: '100%'});
-        });
-    }
-    //--------------------------------- determineOpenState
-    determineOpenState(scroll_y){
-        //if not is open
-        //set to open
-        var el = $(ReactDOM.findDOMNode(this));
-        if(scroll_y > 0 && !this.state.is_open){
-            this.setCurrentPanelState(); 
-            this.setState({
-                is_open: true,
-                cur_show_num: this.state.cur_panel_num,
-                is_showing_panel: true
-            });
-            $(el).trigger("open"); 
-        } 
-    }
     //--------------------------------- componentWillReceiveProps
     componentWillReceiveProps(nextProps){
-        var panel_info_height = this.getPanelInfoHeight();
-        var state = {
-            is_open: nextProps.is_open,
-            panel_info_height: panel_info_height
-        };
-
-        this.setCurrentPanelState();
-        //else if id_open from
+        var state = { is_open: nextProps.is_open };
         //!is_open
-        //set the cur_show_num
-        //& is_showing_panel
-        if( !this.state.is_open && nextProps.is_open ||
-            this.props.scroll_y != nextProps.scroll_y ) this.determineStateByScrollY();
+        if( (!this.state.is_open && nextProps.is_open) ||
+            (this.props.scroll_y != nextProps.scroll_y) ) {
+            this.determineStateByScrollY(nextProps.scroll_y);
+        }
+
+        if(nextProps.section != this.props.section) this.scrollToSection(nextProps.section);   
 
         this.setState(state);
         //check the opacity
         //if we are going from opacity 
         //0 to opacity zero
-        //set the overlay_left to 0
+        //set the overlay_left to 0 
         this.updatePanelScroll();
-    }
-    //--------------------------------- getPanelInfoHeight
-    getPanelInfoHeight(){
-        var height_by_width = 0;
-        height_by_width = (this.props.screen_width <= 615) ? 
-        this.PANEL_INFO_HEIGHT_SMALL : this.PANEL_INFO_HEIGHT;
-        return height_by_width;
     }
     //--------------------------------- onProjectDataLoaded
     onProjectDataLoaded(result){
@@ -257,10 +180,6 @@ class PanelView extends React.Component {
             var show = index == self.state.cur_show_num;
             var hide = index == self.state.cur_hide_num;
             var key = "experiment_" + index;
-            //to stage_width and stage_height
-            /*var stage_width = self.props.screen_width;
-            var stage_height = self.props.screen_height - self.state.panel_info_height;
-            if(index == 0) stage_height = self.props.screen_height;*/
 
             var data = {
                 width: obj.width,            
@@ -284,7 +203,7 @@ class PanelView extends React.Component {
                     direction={self.state.panel_direction}
                     stage_width={self.props.screen_width}
                     stage_height={self.props.screen_height} 
-                    offset_y={self.state.panel_info_height} />
+                    offset_y={0} />
             );
         });
         return experiments;
@@ -298,11 +217,6 @@ class PanelView extends React.Component {
             var show = (self.state.experiments.length + index) == self.state.cur_show_num;
             var hide = (self.state.experiments.length + index) == self.state.cur_hide_num;
             var key = "project_" + index;  
-
-            //to stage_width and stage_height
-            /*var stage_width = self.props.screen_width;
-            var stage_height = self.props.screen_height - self.state.panel_info_height;
-            var offset_y = ;*/
             
             return(
                 <Project  
@@ -315,10 +229,31 @@ class PanelView extends React.Component {
                     direction={self.state.panel_direction}
                     stage_width={self.props.screen_width}
                     stage_height={self.props.screen_height} 
-                    offset_y={self.state.panel_info_height} />
+                    offset_y={0} />
             );
         });
         return projects;
+    }
+    //--------------------------------- determineStateByScrollY
+    determineStateByScrollY(scroll_y){
+        this.determineCurrentPanelNum(scroll_y);
+        this.determineOverlayOpacity(scroll_y);
+        this.determineOpenState(scroll_y);
+    }
+    //--------------------------------- determineOpenState
+    determineOpenState(scroll_y){
+        //if not is open
+        //set to open
+        if(scroll_y > 0 && !this.state.is_open){
+            this.setCurrentPanelState(); 
+            this.setState({
+                is_open: true,
+                cur_show_num: this.state.cur_panel_num,
+                //is_showing_panel: true
+            });
+            this.props.onPanelShow();
+            this.props.onOpen();
+        } 
     }
     //--------------------------------- determineOverlayOpacity
     determineOverlayOpacity(scroll_y){
@@ -365,9 +300,8 @@ class PanelView extends React.Component {
             state.cur_show_num = this.state.cur_panel_num;
             clearTimeout(this.setPanelStateTimeout);
             self.setCurrentPanelState();
-            state.is_showing_panel = true;
+            self.props.onPanelShow();
         } 
-        else state.is_showing_panel = false;
 
         //want to have a cur_hide_num
         //that is set once the opacity is > 0
@@ -376,12 +310,12 @@ class PanelView extends React.Component {
         //set the current panel state 
         //when you know the opacity is at 1 
         if(to_opacity == 1){
-            state.is_hiding_panel = true;
+            this.props.onPanelHide();
             this.setPanelStateTimeout = setTimeout(function(){
                 self.setCurrentPanelState();
             }, 550);  
         } 
-        else state.is_hiding_panel = false;  
+        //else state.is_hiding_panel = false;  
 
         //check the opacity
         //instead set to 0 when going from
@@ -391,24 +325,8 @@ class PanelView extends React.Component {
 
         this.setState(state);  
     }
-    //--------------------------------- setCurrentPanelState
-    setCurrentPanelState(){ 
-        var state = {};
-        var cur_panel;
-        if(this.state.cur_panel_num > (this.state.experiments.length-1)){
-            cur_panel = this.state.projects[this.state.cur_panel_num - this.state.experiments.length]; 
-        }          
-        else cur_panel = this.state.experiments[this.state.cur_panel_num];
-
-        state.cur_title = cur_panel.title; 
-        state.cur_desc = cur_panel.desc; 
-        if(cur_panel.link) state.cur_link = cur_panel.link;
-        if(cur_panel.link_copy) state.cur_link_copy = cur_panel.link_copy;
-
-        this.setState(state);
-    }
-    //--------------------------------- determineCurrentPanel
-    determineCurrentPanel(scroll_y){  
+    //--------------------------------- determineCurrentPanelNum
+    determineCurrentPanelNum(scroll_y){  
         //compare the new cur_panel_num
         //to this.states's cur_panel_num
         //before updating it 
@@ -420,7 +338,7 @@ class PanelView extends React.Component {
         var prev_panel_num = this.state.prev_panel_num;
         var cur_panel_num = Math.round(scroll_y/(this.state.change_panel_scroll*2));
         if(cur_panel_num != this.state.cur_panel_num) prev_panel_num = this.state.cur_panel_num;
-        var section = (cur_panel_num < this.state.experiments.length) ? "Experiment" : "Project";
+        var section = (cur_panel_num < this.state.experiments.length) ? this.EXPERIMENT : this.PROJECT;
 
         //also determine the cur_show number
         //set panel_direction to positive or negative
@@ -431,6 +349,61 @@ class PanelView extends React.Component {
             prev_panel_num: prev_panel_num,
             panel_direction: panel_direction,
             section: section
+        });
+    }
+    //--------------------------------- scrollToSection
+    scrollToSection(section){  
+        var scroll_y = this.getScrollYOfSection(section);
+        window.scroll(0, scroll_y);
+    }
+    //--------------------------------- getScrollYOfSection
+    getScrollYOfSection(section){ 
+        var scroll_y = 0;
+        //if experiments
+        //simply scroll enough to open
+        if(section.toLowerCase() == this.EXPERIMENT.toLowerCase()) scroll_y = 10;
+        //else if projects
+        //find the scrollY pos you need to 
+        //scroll to by determining the number of
+        //experiments to determine
+        //which index the first experiment resides at
+        else if(section.toLowerCase() == this.PROJECT.toLowerCase()){
+            scroll_y = this.state.experiments.length*this.state.change_panel_scroll*2;   
+        }
+
+        return scroll_y;
+    }
+    //--------------------------------- setCurrentPanelState
+    setCurrentPanelState(){ 
+        //call the onchange function 
+        //with the current data as an arg
+        var state = {};
+        var cur_panel;
+        if(this.state.cur_panel_num > (this.state.experiments.length-1)){
+            cur_panel = this.state.projects[this.state.cur_panel_num - this.state.experiments.length]; 
+        }          
+        else cur_panel = this.state.experiments[this.state.cur_panel_num];
+
+        state.section = this.state.section;
+        state.title = cur_panel.title; 
+        state.desc = cur_panel.desc; 
+        if(cur_panel.link) state.link = cur_panel.link;
+        if(cur_panel.link_copy) state.link_copy = cur_panel.link_copy;
+
+        this.props.onPanelChange(state);
+    }
+    //--------------------------------- handleOverlayAnimState
+    handleOverlayAnimState(){
+        //set listener for anim complete
+        //so that we can set the overlay
+        //to display none 
+        var self = this;
+        this.overlay_el = $(ReactDOM.findDOMNode(this.refs.overlay));
+        $(this.overlay_el).off();
+        $(this.overlay_el).on(
+            "transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd", 
+            function(){
+                if(this.style.opacity == 0) self.setState({overlay_left: '100%'});
         });
     }
     //--------------------------------- updatePanelScroll

@@ -3,10 +3,8 @@ import ReactDOM from 'react-dom';
 import FastClick from 'fastclick';
 import MainInfo from './MainInfo.jsx';
 import PanelView from './PanelView.jsx';
+import PanelInfo from './PanelInfo.jsx';
 import COLORS from './style/COLORS.jsx';
-
-var app = document.getElementById('app');
-setBaseStyles();
 
 class App extends React.Component {
     //--------------------------------- constructor
@@ -17,31 +15,27 @@ class App extends React.Component {
     }
     //--------------------------------- declareConstants
     declareConstants(){
-        this.declareStyleConstants();
+        //this.declareStyleConstants();
     }
-    //--------------------------------- declareStyleConstants
-    declareStyleConstants(){
-        /*this.STYLE                      = {
-                                            position: 'fixed',
-                                            width: '100%'
-        };*/
-        this.TEST_EL_STYLE              = {
-                                            position: 'fixed',
-                                            top: 50,
-                                            left: 50,
-                                            width: 300,
-                                            height: 400,
-                                            backgroundColor: COLORS.DRK_GRAY,
-                                            zIndex: 900
-        };
-    }
+    // //--------------------------------- declareStyleConstants
+    // declareStyleConstants(){
+    // }
     //--------------------------------- setInitialState    
     setInitialState(){
         this.state = { 
             screen_width: window.innerWidth,
             screen_height: window.innerHeight,
             panel_view_is_open: false,
-            scroll_y: window.scrollY
+            scroll_y: window.scrollY,
+            info_is_min: false,
+            cur_info: {},
+            info_show: false,
+            info_hide: false,
+            info_section: "",
+            info_title: "",
+            info_desc: "",
+            info_link: "",
+            info_link_copy: ""        
         };
     }  
     //--------------------------------- render    
@@ -51,81 +45,122 @@ class App extends React.Component {
                 <MainInfo ref="mainInfo" 
                     screen_width={this.state.screen_width} 
                     screen_height={this.state.screen_height} 
-                    is_open={!this.state.panel_view_is_open} />
+                    is_open={!this.state.panel_view_is_open}
+                    is_min={this.state.info_is_min}
+                    onOpen={this.onPanelViewClose.bind(this)}
+                    onClose={this.onPanelViewOpen.bind(this)}
+                    onMin={this.onInfoMin.bind(this)}
+                    onMax={this.onInfoMax.bind(this)}
+                    onSectionClick={this.showSection.bind(this)} />
                 <PanelView ref="panelView" 
                     screen_width={this.state.screen_width} 
                     screen_height={this.state.screen_height} 
                     is_open={this.state.panel_view_is_open}
-                    scroll_y={this.state.scroll_y} />                    
+                    scroll_y={this.state.scroll_y} 
+                    onOpen={this.onPanelViewOpen.bind(this)}
+                    onPanelShow={this.onPanelShow.bind(this)}
+                    onPanelHide={this.onPanelHide.bind(this)}
+                    onPanelChange={this.onPanelChange.bind(this)}
+                    section={this.state.section} />  
+                <PanelInfo 
+                    is_open={this.state.panel_view_is_open}
+                    screen_width={this.state.screen_width}
+                    screen_height={this.state.screen_height}
+                    section={this.state.info_section}
+                    title={this.state.info_title} 
+                    desc={this.state.info_desc} 
+                    link={this.state.info_link} 
+                    link_copy={this.state.info_link_copy}
+                    show={this.state.info_show}
+                    hide={this.state.info_hide}                                        
+                    is_min={this.state.info_is_min} />                  
             </div>  
         );
     }
     //--------------------------------- componentDidMount
     componentDidMount() {
+        this.initWindow();
+    }
+    //--------------------------------- initWindow
+    initWindow() {
         var self = this;
 
         this.onWindowResize();
         window.addEventListener("resize", function(){
             self.onWindowResize();
         });
+
+        setTimeout(function(){
+            self.setState({scroll_y: window.scrollY});
+        }, 100); 
+
         window.addEventListener("scroll", function(){
-            console.log("window.scrollY = " + window.scrollY);
             //update a scroll_y state here
             self.setState({scroll_y: window.scrollY});
         });
+    }
+    //--------------------------------- onPanelViewOpen
+    onPanelViewOpen() {
+        this.setState({panel_view_is_open: true});
+    }
+    //--------------------------------- onPanelViewClose
+    onPanelViewClose() {
+        this.setState({panel_view_is_open: false});
+    }
+    //--------------------------------- onInfoMin
+    onInfoMin() {
+        this.setState({info_is_min: true});
+    }
+    //--------------------------------- onInfoMax
+    onInfoMax() {
+        this.setState({info_is_min: false});
+    }
+    //--------------------------------- onPanelShow
+    onPanelShow() {
+        this.setState({info_show: true});
+        this.setState({info_hide: false});
+    }
+    //--------------------------------- onPanelHide
+    onPanelHide() {
+        this.setState({info_hide: true});
+        this.setState({info_show: false});
+    }
+    //--------------------------------- onInfoChange
+    onPanelChange(info) {
+        var state = {};
+        //need to ensure info contains
+        //all required data
+        //-------
+        //section
+        state.info_section = info.section ? info.section : "";
+        //title
+        state.info_title = info.title ? info.title : "";
+        //desc
+        state.info_desc = info.desc ? info.desc : "";
+        //link
+        state.info_link = info.link ? info.link : "";
+        //link_copy
+        state.info_link_copy = info.link_copy ? info.link_copy : "";
 
-        //when a user is at scrollY > 0
-        //need to make sure the mainView
-        //is closed
-        var panel_view_el = $(ReactDOM.findDOMNode(this.refs.panelView));
-        $(panel_view_el).on("open", function(event){
-            self.setState({panel_view_is_open: true});
-        });
-
-        var main_info_el = $(ReactDOM.findDOMNode(this.refs.mainInfo));
-        $(main_info_el).on("open", function(event){
-            //close the panelView
-            self.setState({panel_view_is_open: false});
-        });
-        $(main_info_el).on("close", function(event){
-            //open the panelView 
-            self.setState({panel_view_is_open: true});
-        });
+        this.setState(state);
     }
     //--------------------------------- onWindowResize
     onWindowResize() {
         //set the state of screen_width to 
         //rerender all children upon resize
-        this.setState({screen_width: window.innerWidth, screen_height: window.innerHeight});
+        this.setState({
+            screen_width: window.innerWidth, 
+            screen_height: window.innerHeight
+        });
         //adhust overall font size
         if(window.innerWidth < 600){
             document.body.style.fontSize = "14px";
         } 
     }
+    //--------------------------------- showSection
+    showSection(section) {
+        this.setState({section: section});
+    }
 }
 
-ReactDOM.render(<App/>, app);
-
-FastClick.attach(document.body);
-
-//--------------------------------- setBaseStyles
-//go ahead and set base
-//styles here since we are
-//not using external css for 
-//this project
-function setBaseStyles(){
-    document.body.style.margin = 0;
-    document.body.style.fontFamily = "Helvetica, Arial, sans-serif";
-    document.body.style.fontSize = "16px";
-    document.body.style.margin = 0;
-    document.body.style.padding = 0;
-    document.body.style.color = COLORS.DRK_GRAY;
-    //document.body.style.height = document.documentElement.style.height = '100%';
-    document.body.style.width = document.documentElement.style.width = '100%';
-    //document.body.style.position = document.documentElement.style.position = 'fixed';
-    //document.body.style.overflow = document.documentElement.style.overflow = 'hidden';
-    /*app.style.position = 'fixed';
-    app.style.overflow = 'hidden';*/
-    //app.style.position = 'relative';
-    app.style.width = '100%';
-}
+export default App;
