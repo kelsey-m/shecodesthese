@@ -51,20 +51,10 @@ class BubbleExperiment extends React.Component {
         this.createPlugin();
         this.initPlugin();
 
-        console.log("after initPlugin");
-
         //listen for idle event
         //move this component off the stage when 
         //the panel is idle
         this.handlePanelIdle();
-
-        //determine if we need to start 
-        //the plugin immediately
-        // if(this.props.is_active && this.props.show){
-        //     var start_timeout = setTimeout(function(){
-        //         BubbleGenerator.start();
-        //     }, 100);
-        // } 
     }
     //--------------------------------- createPlugin
     createPlugin(){
@@ -125,6 +115,13 @@ class BubbleExperiment extends React.Component {
             this.props.stage_height != prevProps.stage_height ){
             BubbleGenerator.reset();
         }
+    }
+    //--------------------------------- componentWillReceiveProps
+    componentWillReceiveProps(nextProps){ 
+        //for now just call onImgsLoaded Method
+        //immediately -- think about setting up
+        //Bubbles to dynamically load
+        if(!this.props.load_imgs & nextProps.load_imgs) this.props.onImgsLoaded();
     }
 }
 

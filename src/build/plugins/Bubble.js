@@ -36,7 +36,7 @@ function addStageMouseListeners(){
 	}, false);
 }
 
-// ----------------------- BubbleGenerator
+// ----------------------- Bubble
 function Bubble(){}
 
 Bubble.prototype = {
@@ -80,7 +80,7 @@ Bubble.prototype = {
 			//add to the stage element			
 			self.stage.appendChild(self.el);
 			self.initImg();
-		}, 1000);
+		}, 500);
 
 		this.reset();
 		this.addMouseListeners();
@@ -297,12 +297,6 @@ Bubble.prototype = {
 					-(1500+cr-this.height_perc)/2)/2;
 
 			//the general size of the bubble is determined by the position of the mouse
-			//!!!!!!!!!!!!!!!!!!
-			//perhaps use the y value
-			//to affect the y pos
-			//and have the scale and speed be 
-			//based upon a random range
-			//!!!!!!!!!!!!!!!!!!
 			var cs = 1500 + mouse_y;
 			var is = 10 + Math.round(Math.random()*(10 + Math.abs(parseInt(cs - (stage_h/2))/8)));
 			
@@ -395,7 +389,7 @@ BubbleGenerator.prototype = {
 			bubble.init(stage, html, index+1);
 			self.bubbles.push(bubble);
 			bubble.animate();
-		}, (10*index));
+		}, (100*index));
 	},
 	//------------------ animateBubbles
 	animateBubbles: function(){

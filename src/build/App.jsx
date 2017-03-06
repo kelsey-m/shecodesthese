@@ -15,11 +15,9 @@ class App extends React.Component {
     }
     //--------------------------------- declareConstants
     declareConstants(){
-        //this.declareStyleConstants();
+        this.SMALL_MAX_WIDTH            = 600;
+        this.X_SMALL_MAX_WIDTH          = 400;
     }
-    // //--------------------------------- declareStyleConstants
-    // declareStyleConstants(){
-    // }
     //--------------------------------- setInitialState    
     setInitialState(){
         this.state = { 
@@ -56,7 +54,6 @@ class App extends React.Component {
                     screen_width={this.state.screen_width} 
                     screen_height={this.state.screen_height} 
                     is_open={this.state.panel_view_is_open}
-                    scroll_y={this.state.scroll_y} 
                     onOpen={this.onPanelViewOpen.bind(this)}
                     onPanelShow={this.onPanelShow.bind(this)}
                     onPanelHide={this.onPanelHide.bind(this)}
@@ -89,19 +86,11 @@ class App extends React.Component {
         window.addEventListener("resize", function(){
             self.onWindowResize();
         });
-
-        setTimeout(function(){
-            self.setState({scroll_y: window.scrollY});
-        }, 100); 
-
-        window.addEventListener("scroll", function(){
-            //update a scroll_y state here
-            self.setState({scroll_y: window.scrollY});
-        });
     }
     //--------------------------------- onPanelViewOpen
     onPanelViewOpen() {
-        this.setState({panel_view_is_open: true});
+
+        this.setState({panel_view_is_open: true, info_show: true, info_hide: false});
     }
     //--------------------------------- onPanelViewClose
     onPanelViewClose() {
@@ -117,13 +106,11 @@ class App extends React.Component {
     }
     //--------------------------------- onPanelShow
     onPanelShow() {
-        this.setState({info_show: true});
-        this.setState({info_hide: false});
+        this.setState({info_show: true, info_hide: false});
     }
     //--------------------------------- onPanelHide
     onPanelHide() {
-        this.setState({info_hide: true});
-        this.setState({info_show: false});
+        this.setState({info_hide: true, info_show: false});
     }
     //--------------------------------- onInfoChange
     onPanelChange(info) {
@@ -132,7 +119,7 @@ class App extends React.Component {
         //all required data
         //-------
         //section
-        state.info_section = info.section ? info.section : "";
+        state.info_section = info.section_name ? info.section_name : "";
         //title
         state.info_title = info.title ? info.title : "";
         //desc
@@ -152,10 +139,16 @@ class App extends React.Component {
             screen_width: window.innerWidth, 
             screen_height: window.innerHeight
         });
+
         //adhust overall font size
-        if(window.innerWidth < 600){
-            document.body.style.fontSize = "14px";
-        } 
+        if(window.innerHeight < this.X_SMALL_MAX_WIDTH) {            
+            document.body.style.fontSize = "12px";
+        }
+        else if( window.innerWidth < this.SMALL_MAX_WIDTH || 
+            window.innerHeight < this.SMALL_MAX_WIDTH ) {
+            document.body.style.fontSize = "13px";
+        }
+        else document.body.style.fontSize = "16px";
     }
     //--------------------------------- showSection
     showSection(section) {

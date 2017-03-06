@@ -11,6 +11,7 @@ class MainInfo extends React.Component {
     }
     //--------------------------------- declareConstants
     declareConstants(){
+        this.X_SMALL_MAX_WIDTH          = 400;
         this.SMALL_MAX_WIDTH            = 700;
         this.MEDIUM_MAX_WIDTH           = 1100;
 
@@ -19,11 +20,11 @@ class MainInfo extends React.Component {
     //--------------------------------- declareStyleConstants
     declareStyleConstants(){
         this.EASE_OUT_TRANS             = 'all <%TIME%> cubic-bezier(0.190, 1.000, 0.220, 1.000) <%DELAY%>';
-        this.OPACITY_COPY_TRANS         = 'opacity 250ms linear';        
-        this.DEFAULT_TRANS_TIME         = '1900ms';
+        this.OPACITY_COPY_TRANS         = 'opacity 250ms linear';      
+        this.DEFAULT_TRANS_TIME         = '1500ms';
         this.MARGIN                     = 27;
         this.SMALL_MARGIN               = 15;
-        this.MIN_HEIGHT                 = 100;
+        this.MIN_HEIGHT                 = 150;
         this.MAX_HEIGHT                 = 280;
         this.SMALL_MAX_HEIGHT           = 280;
         this.CLOSED_WIDTH               = 460;
@@ -48,22 +49,25 @@ class MainInfo extends React.Component {
                                             OTransition: this.easeOutTrans(this.DEFAULT_TRANS_TIME),
                                             transition: this.easeOutTrans(this.DEFAULT_TRANS_TIME)
         };
+        this.OPACITY_CONTENT_TRANS_OUT  = 'opacity 100ms linear';  
+        this.OPACITY_CONTENT_TRANS_IN   = 'opacity 150ms linear 150ms';    
         this.CONTENT_STYLE              = {
                                             opacity: 1,
-                                            WebkitTransition: this.OPACITY_COPY_TRANS,
-                                            MozTransition: this.OPACITY_COPY_TRANS,
-                                            OTransition: this.OPACITY_COPY_TRANS,
-                                            transition: this.OPACITY_COPY_TRANS,
                                             WebkitTransform: 'scale3d(1,1,1)',
                                             MozTransform: 'scale3d(1,1,1)',
                                             OTransform: 'scale3d(1,1,1)',
                                             transform: 'scale3d(1,1,1)'
         };
         this.LOGO_PADDING_SMALL         = 10;
+        this.LOGO_WIDTH                 = 120;
+        this.LOGO_HEIGHT                = 120;
+        this.LOGO_WIDTH_SMALL           = 100;
+        this.LOGO_HEIGHT_SMALL          = 100;
         this.LOGO_STYLE                 = {
-                                            width: 120,
-                                            height: 120,
+                                            width: this.LOGO_WIDTH,
+                                            height: this.LOGO_HEIGHT,
                                             opacity: 0,
+                                            paddingTop: 10,
                                             paddingBottom: '20%',
                                             WebkitTransform: 'scale3d(1,1,1)',
                                             MozTransform: 'scale3d(1,1,1)',
@@ -89,6 +93,9 @@ class MainInfo extends React.Component {
                                             textDecoration: 'underline',
                                             color: COLORS.DRK_GRAY,
                                             fontSize: '0.85em'
+        };
+        this.LIST_ITEM_STYLE            = {
+                                            paddingBottom: '0.23em',
         };
         this.LIST_STYLE                 = {
                                             margin: 0,
@@ -138,14 +145,16 @@ class MainInfo extends React.Component {
     render(){
         var self = this;
         var style = this.determineStyleByScreenSize();
+        var content_style = this.determineContentStyle();
         var logo_style = this.determineLogoStyle();
+        var list_style = this.determineListStyle();
         var arrow_style = this.determineArrowStyle();
         var min_style = this.determineMinStyle();
         var max_style = this.determineMaxStyle();
 
         return (
             <div style={style}>
-                <div style={this.determineContentStyle()} ref="mainInfoContent">
+                <div style={content_style} ref="mainInfoContent">
                     <img ref="logo" style={logo_style} src="assets/img/she-codes-these@2x.png"/>
                     <h1 style={this.HEADER_STYLE}>
                         <a style={this.SECTION_LINK_STYLE} 
@@ -153,8 +162,8 @@ class MainInfo extends React.Component {
                         style={this.SECTION_LINK_STYLE} 
                         onClick={this.onSectionClick.bind(this, "project")}>Projects</a> of Software Developer, Kelsey Motley_______
                     </h1>
-                    <ul style={this.LIST_STYLE}>
-                        <li>
+                    <ul style={list_style}>
+                        <li style={this.LIST_ITEM_STYLE}>
                             <a 
                             style={this.CONNECT_LINK_STYLE} 
                             target="_blank" 
@@ -162,7 +171,7 @@ class MainInfo extends React.Component {
                             https://www.linkedin.com/in/kelseyvaughn
                             </a>
                         </li>
-                        <li>
+                        <li style={this.LIST_ITEM_STYLE}>
                             <a 
                             style={this.CONNECT_LINK_STYLE} 
                             target="_blank" 
@@ -170,7 +179,7 @@ class MainInfo extends React.Component {
                             https://github.com/kelsey-m
                             </a>
                         </li>
-                        <li>
+                        <li style={this.LIST_ITEM_STYLE}>
                             <a 
                             style={this.CONNECT_LINK_STYLE} 
                             target="_blank" 
@@ -178,7 +187,7 @@ class MainInfo extends React.Component {
                             https://twitter.com/_kelseyvaughn
                             </a>
                         </li>
-                        <li>
+                        <li style={this.LIST_ITEM_STYLE}>
                             <a 
                             style={this.CONNECT_LINK_STYLE} 
                             target="_blank" 
@@ -189,13 +198,13 @@ class MainInfo extends React.Component {
                     </ul>
                 </div>
                 <ul style={this.OPT_MENU_STYLE}>
-                    <li style={min_style} onClick={function(){self.onMinClick();}}>
+                    <li style={min_style} onClick={this.onMinClick.bind(this)}>
                         <img src="assets/img/min.gif" style={this.OPT_ITEM_IMG_STYLE} width="19" height="5" />
                     </li>                                      
-                    <li style={max_style} onClick={function(){self.onMaxClick();}}>
+                    <li style={max_style} onClick={this.onMaxClick.bind(this)}>
                         <img src="assets/img/max.gif" style={this.OPT_ITEM_IMG_STYLE} width="19" height="19" />
                     </li>
-                    <li style={arrow_style} onClick={function(){self.onArrowClick();}}>
+                    <li style={arrow_style} onClick={this.onArrowClick.bind(this)}>
                         <img src="assets/img/arrow.gif" style={this.OPT_ITEM_IMG_STYLE} width="21" height="13" />
                     </li>  
                 </ul>
@@ -204,18 +213,26 @@ class MainInfo extends React.Component {
     }
     //--------------------------------- open
     open(){
+        console.log("open");
         this.props.onOpen();
     }
     //--------------------------------- close
     close(){
+        console.log("close");
         this.props.onClose();
     }
     //--------------------------------- determineLogoStyle
     determineLogoStyle(){
         var logo_style = Object.assign({}, this.LOGO_STYLE);
         logo_style.opacity = this.state.logo_opacity;
-        if(this.props.screen_width < 500){
+        if( this.props.screen_width < 500 || 
+            this.props.screen_height < this.SMALL_MAX_WIDTH ){
             logo_style.paddingBottom = this.LOGO_PADDING_SMALL;   
+        }
+        if( this.props.screen_width < this.SMALL_MAX_WIDTH ||
+            this.props.screen_height < this.SMALL_MAX_WIDTH ){
+            logo_style.width = this.LOGO_WIDTH_SMALL;
+            logo_style.height = this.LOGO_HEIGHT_SMALL;
         }
         return logo_style;
     }
@@ -223,6 +240,14 @@ class MainInfo extends React.Component {
     determineContentStyle(){
         var style = Object.assign({}, this.CONTENT_STYLE);
         style.opacity = this.state.content_opacity;
+
+        //set the correct transition - in or out
+        var transition = (style.opacity === 1) ? this.OPACITY_CONTENT_TRANS_IN : this.OPACITY_CONTENT_TRANS_OUT;
+
+        style.WebkitTransition = transition;
+        style.MozTransition = transition;
+        style.OTransition = transition;
+        style.transition = transition;
 
         return style;
     }
@@ -246,9 +271,23 @@ class MainInfo extends React.Component {
 
         return style;
     }
+    //--------------------------------- determineListStyle
+    determineListStyle(){
+        var style = Object.assign({}, this.LIST_STYLE);
+        if(this.props.screen_height < this.X_SMALL_MAX_WIDTH) style.display = 'none';
+
+        return style;
+    }
     //--------------------------------- determineArrowStyle
     determineArrowStyle(){
         var style = Object.assign({}, this.OPT_ITEM_STYLE);
+        //want to set the scaleY to 1 or -1
+        //depending of the open state
+        var transform = this.props.is_open ? 'scaleY(1)' : 'scaleY(-1)'; 
+        style.WebkitTransform = transform;
+        style.MozTransform = transform;
+        style.OTransform = transform;
+        style.transform = transform;
 
         return style;
     }
@@ -276,7 +315,9 @@ class MainInfo extends React.Component {
     componentDidMount(){
         var self =  this;
         var offset;
-        this.updatePaddingTop();
+        setTimeout(function(){
+            self.updatePaddingTop();
+        }, 200);
 
         var logo = $(ReactDOM.findDOMNode(this.refs.logo));
         if(logo.complete) this.onLogoLoaded();
@@ -294,10 +335,7 @@ class MainInfo extends React.Component {
     //--------------------------------- componentWillReceiveProps
     componentWillReceiveProps(nextProps){
         var self = this;
-        var state = {
-            // width:  this.dims(nextProps.is_open, nextProps.is_min).width,
-            // height:  this.dims(nextProps.is_open, nextProps.is_min).height
-        };
+        var state = {};
         
         if(nextProps.is_open){
             //if opened from closed
@@ -425,7 +463,7 @@ class MainInfo extends React.Component {
         //MEDIUM
         //for all widths <= MEDIUM && > SMALL ----- 75%
         if( screen_width <= this.MEDIUM_MAX_WIDTH && 
-                 screen_width > this.SMALL_MAX_WIDTH ){
+            screen_width > this.SMALL_MAX_WIDTH ){
             to_width = (screen_width*0.75);
             adjusted_to_width = to_width - this.MARGIN;
         } 

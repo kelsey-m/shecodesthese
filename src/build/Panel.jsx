@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import COLORS from './style/COLORS.jsx';
 
 class Panel extends React.Component {
     //--------------------------------- constructor
@@ -20,6 +21,10 @@ class Panel extends React.Component {
                                             position: 'absolute',
                                             width: '100%',
                                             height: '100%'
+                                            //!!!!!!!!!!!!!!!!
+                                            //perhaps put a loader gif
+                                            //as the bgImage
+                                            //!!!!!!!!!!!!!!!!
         };
         this.CHILD_STYLE                = {
                                             position: 'absolute',
@@ -114,8 +119,6 @@ class Panel extends React.Component {
         $($(el).children()[0]).on(
             "transitionend webkitTransitionEnd mozTransitionEnd oTransitionEnd",
             function(event){
-                //dispatch event here
-                //$(el).trigger(self.IDLE);
                 if(this.style.opacity == 0) self.setState({child_top: '100%', show_on_active:false});
             }
         );
@@ -126,9 +129,15 @@ class Panel extends React.Component {
             is_active: nextProps.is_active, 
             is_previous: nextProps.is_previous,
             show: nextProps.show,
-            hide: nextProps.hide,
-            show_on_active: nextProps.show_on_active
+            hide: nextProps.hide
         }; 
+
+        //set show on active only aplies to the first
+        //activation - so to false once it has
+        //been deactivated
+        if(this.state.show_on_active && !nextProps.is_active){
+            state.show_on_active = false;   
+        }
 
         //react bundles setState calls
         //within their lifecycle events
@@ -170,8 +179,6 @@ class Panel extends React.Component {
             } 
             else state.child_opacity = 1;
         }
-        //else if(this.state.is_previous && this.state.hide){
-        //else if(this.state.hide){  
         else{          
             new_y = (to_y!=0) ? (to_y*this.ANIM_OFFSET) : this.props.stage_height*this.ANIM_OFFSET;
             to_y += new_y;
@@ -180,11 +187,12 @@ class Panel extends React.Component {
 
         //override default show
         //bahavior to show on active
-        //rather than show state
+        //rather than on show 
         if(this.state.is_active && this.state.show_on_active){
             state.child_opacity = 1;
             to_y = 0;
         } 
+
         state.child_y = to_y;
         if(this.state.is_active) state.child_top = 0;
 

@@ -54,16 +54,20 @@ class ImageExplosionExperiment extends React.Component {
         //of react  - so add it here -
         //so that react doesnt know about it
         var experiment_holder_el = $(ReactDOM.findDOMNode(this.refs.experimentHolder));
-        var plugin_el = $('<div id="image-explosion-experiment" />');
-        plugin_el.css({width: this.props.data.width, height: this.props.data.height});
-        experiment_holder_el.append(plugin_el);
+        this.plugin_el = $('<div id="image-explosion-experiment" />');
+        this.plugin_el.css({width: this.props.data.width, height: this.props.data.height});
+        experiment_holder_el.append(this.plugin_el);
 
         //initialize the plugin
         //may need to set small timeout 
-        setTimeout(function(){
-            //for now just add an image to it
-            self.createImg(plugin_el);
-        }, 1000);
+        // setTimeout(function(){
+        //     //for now just add an image to it
+        //     self.createImg(plugin_el);
+        // }, 1000);
+    }
+    //--------------------------------- componentWillReceiveProps
+    componentWillReceiveProps(nextProps){
+        if(!this.props.load_imgs && nextProps.load_imgs) this.createImg(this.plugin_el);
     }
     //--------------------------------- createImg
     createImg(plugin_el){
@@ -104,6 +108,7 @@ class ImageExplosionExperiment extends React.Component {
         setTimeout(function(){
             img_el.style.opacity = 1;
         }, 60);
+        this.props.onImgsLoaded();
     }
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import PanelInfo from './PanelInfo.jsx';
 import Project from './Project.jsx';
 import BubbleExperiment from './BubbleExperiment.jsx';
 import ImageExplosionExperiment from './ImageExplosionExperiment.jsx';
@@ -17,13 +16,15 @@ class PanelView extends React.Component {
     declareConstants(){
         this.EXPERIMENT                 = "Experiment";
         this.PROJECT                    = "Project";
+        this.MIN_DELTA_FOR_SWIPE        = 40;
+        this.MIN_SHOW_TIME_DELTA        = 1000;
 
         this.declareStyleConstants();
     }
     //--------------------------------- declareStyleConstants
     declareStyleConstants(){
         //easeOutQuad
-        this.EASE_OUT_TRANS             = 'opacity 150ms cubic-bezier(0.250, 0.460, 0.450, 0.940)';
+        this.EASE_OUT_TRANS             = 'opacity 450ms cubic-bezier(0.250, 0.460, 0.450, 0.940)';
         this.PANEL_VIEW_STYLE           = {
                                             position: 'fixed',
                                             zIndex: 2,
@@ -40,8 +41,6 @@ class PanelView extends React.Component {
                                             height: '100%',
                                             //tween animation
                                             //for smooth transition 
-                                            //to (longer duration & forced)
-                                            //zero opacity
                                             //add 3d styles to
                                             //force hardware accel
                                             WebkitTransform: 'translateZ(0)',
@@ -96,13 +95,13 @@ class PanelView extends React.Component {
                     height: "100%"
                 }
             ],
-            total_scroll_height: 0,
             overlay_opacity: 0,
             overlay_left: '100%',
-            override_overlay_scroll: false,
-            change_panel_scroll: 400,
             panel_info: [],
-            section_name: this.EXPERIMENT
+            section_name: this.EXPERIMENT,
+            touch_start_y: -1,
+            show_time: null,
+            loading_panel_num: -1
         };    
     }
     //--------------------------------- render
@@ -140,36 +139,41 @@ class PanelView extends React.Component {
     componentDidMount(){
         var self = this;
         this.serverRequest = $.get(this.PROJECTS_SRC, function (result) {
-            self.onProjectDataLoaded(result);
+            self.onProjectDataLoaded(result); 
         }.bind(this));    
 
-        //need to call the determine state functions here
-        this.determineStateByScrollY(this.props.scroll_y);
-
+        this.setWindowListeners();
+        this.setCurrentPanelState();
         this.handleOverlayAnimState(); 
+        //!!!!!!!!!!!!!!!!!!!!!!!
+        //may need to set a timeout here
+        //!!!!!!!!!!!!!!!!!!!!!!!
+        this.loadNextPanelImgs();
     }
     //--------------------------------- componentWillReceiveProps
     componentWillReceiveProps(nextProps){
         var state = { is_open: nextProps.is_open };
-        //!is_open
-        if( (!this.state.is_open && nextProps.is_open) ||
-            (this.props.scroll_y != nextProps.scroll_y) ) {
-            this.determineStateByScrollY(nextProps.scroll_y);
-        }
+
+        //if opened from closed
+        if(!this.state.is_open && nextProps.is_open) this.open();
 
         if(nextProps.section != this.props.section) this.scrollToSection(nextProps.section);   
 
         this.setState(state);
-        //check the opacity
-        //if we are going from opacity 
-        //0 to opacity zero
-        //set the overlay_left to 0 
-        this.updatePanelScroll();
     }
-    //--------------------------------- onProjectDataLoaded
-    onProjectDataLoaded(result){
-        this.setState({projects:result.projects});
-        this.updatePanelScroll();
+    //--------------------------------- setWindowListeners
+    setWindowListeners(){
+        //want to basically simulate
+        //vertical swipes - so we need
+
+        //touchstart and touchend
+        //for touch UIs
+        window.addEventListener('touchstart', this.onTouchStart.bind(this), false);
+        window.addEventListener('touchend', this.onTouchEnd.bind(this), false);
+        //and wheel scroll for both
+        //browser events
+        window.addEventListener("mousewheel", this.onMouseWheel.bind(this), false);
+        window.addEventListener("DOMMouseScroll", this.onMouseWheel.bind(this), false);
     }
     //--------------------------------- describeExperiments
     describeExperiments(){
@@ -180,6 +184,7 @@ class PanelView extends React.Component {
             var show = index == self.state.cur_show_num;
             var hide = index == self.state.cur_hide_num;
             var key = "experiment_" + index;
+            var load_imgs = index==self.state.loading_panel_num;
 
             var data = {
                 width: obj.width,            
@@ -203,7 +208,9 @@ class PanelView extends React.Component {
                     direction={self.state.panel_direction}
                     stage_width={self.props.screen_width}
                     stage_height={self.props.screen_height} 
-                    offset_y={0} />
+                    offset_y={0}
+                    onImgsLoaded={self.onPanelImgsLoaded.bind(self)}
+                    load_imgs={load_imgs} />
             );
         });
         return experiments;
@@ -217,6 +224,7 @@ class PanelView extends React.Component {
             var show = (self.state.experiments.length + index) == self.state.cur_show_num;
             var hide = (self.state.experiments.length + index) == self.state.cur_hide_num;
             var key = "project_" + index;  
+            var load_imgs = (self.state.experiments.length + index)==self.state.loading_panel_num;
             
             return(
                 <Project  
@@ -229,149 +237,140 @@ class PanelView extends React.Component {
                     direction={self.state.panel_direction}
                     stage_width={self.props.screen_width}
                     stage_height={self.props.screen_height} 
-                    offset_y={0} />
+                    offset_y={0}
+                    onImgsLoaded={self.onPanelImgsLoaded.bind(self)}
+                    load_imgs={load_imgs} />
             );
         });
         return projects;
     }
-    //--------------------------------- determineStateByScrollY
-    determineStateByScrollY(scroll_y){
-        this.determineCurrentPanelNum(scroll_y);
-        this.determineOverlayOpacity(scroll_y);
-        this.determineOpenState(scroll_y);
+    //--------------------------------- onTouchStart
+    onTouchStart(event){
+        //save the start pos
+        this.setState({touch_start_y: event.touches[0].clientY});
     }
-    //--------------------------------- determineOpenState
-    determineOpenState(scroll_y){
-        //if not is open
-        //set to open
-        if(scroll_y > 0 && !this.state.is_open){
-            this.setCurrentPanelState(); 
-            this.setState({
-                is_open: true,
-                cur_show_num: this.state.cur_panel_num,
-                //is_showing_panel: true
-            });
-            this.props.onPanelShow();
-            this.props.onOpen();
-        } 
+    //--------------------------------- onTouchEnd
+    onTouchEnd(event){
+        //check the delta of start pos
+        //if greater than MIN_DELTA_FOR_SWIPE
+        //change panels
+        var delta_y = event.changedTouches[0].clientY - this.state.touch_start_y;
+        if(Math.abs(delta_y) < this.MIN_DELTA_FOR_SWIPE) return;
+
+        //swipe up
+        if(delta_y < 0) this.onSwipeUp();
+        //swipe down
+        else this.onSwipeDown();
     }
-    //--------------------------------- determineOverlayOpacity
-    determineOverlayOpacity(scroll_y){
-        //flucuate between 
-        //0 and 1 with the absolute 
-        //of a sign value relative
-        //to the scroll position
-        //but modify this it remain at 0 longer
-        //by rounding down if determined value
-        //is less than some value
-        //and by adding a tween style to 
-        //the opacity object so that it is smooth
+    //--------------------------------- onMouseWheel
+    onMouseWheel(event){
+        //cross browser wheel delat
+        //event = event ? event : window.event;
+        event = event || window.event;
+        //check the delta
+        //if greater than MIN_DELTA_FOR_SWIPE
+        //change panels
+        var delta_y = (event.wheelDelta || -event.detail);
+
+        if(Math.abs(delta_y) < this.MIN_DELTA_FOR_SWIPE) return;
+
+        //swipe up
+        if(delta_y < 0) this.onSwipeUp();
+        //swipe down
+        else this.onSwipeDown();
+    }
+    //--------------------------------- onProjectDataLoaded
+    onProjectDataLoaded(result){
+        this.setState({projects:result.projects});
+    }
+    //--------------------------------- onSwipeUp
+    onSwipeUp(){
+        if(!this.state.is_open) this.open();
+        else this.showNextPanel();
+    }
+    //--------------------------------- onSwipeDown
+    onSwipeDown(){
+        if(this.state.is_open) this.showPrevPanel();
+    }
+    //--------------------------------- showNextPanel
+    showNextPanel(){
+        var cur_panel_num = this.state.cur_panel_num+1;
+        var total_panels = this.state.experiments.length + this.state.projects.length;                       
+        //if cur_panel_num >= num_panels --> set to 0
+        if(cur_panel_num >= total_panels) cur_panel_num = 0;
+
+        this.showPanel(cur_panel_num);
+    }
+    //--------------------------------- showPrevPanel
+    showPrevPanel(){
+        var cur_panel_num = this.state.cur_panel_num-1;
+        var total_panels = this.state.experiments.length + this.state.projects.length;                       
+        //if cur_panel_num > 0 --> set to total_panels - 1
+        if(cur_panel_num < 0) cur_panel_num = total_panels - 1;
+
+        this.showPanel(cur_panel_num);
+    }
+    //--------------------------------- showPanel
+    showPanel(num){
         var self = this;
-        var state = {};
-        var to_opacity = Math.abs(Math.sin(scroll_y*(Math.PI/(this.state.change_panel_scroll*2))));
+        var total_panels = this.state.experiments.length + this.state.projects.length;                       
+        //if cur_panel_num >= num_panels --> set to 0
+        if(num < 0) num = total_panels - 1;
 
-        //want to have the opacity
-        //at 0 for a longer duration
-        //so that the showing panel
-        //reamins shown for longer
-        if(to_opacity < 0.85) to_opacity = 0; 
-        //scroll_y may not hit exactly at a spot
-        //to equate to_opacity to 1
-        //so may need to force it 
-        else if(to_opacity > 0.99) to_opacity = 1;
-        //else if(to_opacity > 0.96) to_opacity = 1;
+        var prev_panel_num = this.state.cur_panel_num;
+        var section_name = (num < this.state.experiments.length) ? 
+                        this.EXPERIMENT : this.PROJECT;
 
-        //force showing once it begins
-        //need to distinguish if this
-        //we are hiding or showing
-        // -----> 
-        //can have an override that is set here
-        //to override the default scroll driven behavior
-        //this will force 0 opacity  & will force 0
-        //opacity for a longer duration while scrolling
-        if(to_opacity == 0) state.override_overlay_scroll = false; 
-        else if( (to_opacity > 0 && to_opacity < 1 && this.state.overlay_opacity == 1) 
-            || this.state.override_overlay_scroll) {
-            to_opacity = 0;
-            state.override_overlay_scroll = true; 
-        }
+        var time = new Date();
+        time = time.getTime(); 
 
-        if(to_opacity < 0.85){
-            state.cur_show_num = this.state.cur_panel_num;
-            clearTimeout(this.setPanelStateTimeout);
-            self.setCurrentPanelState();
+        //if attaempting to show before  
+        //the time since the last show 
+        //is less than the min_showm_delta
+        //do not show => do nothing
+        if(this.state.show_time && (time - this.state.show_time) < this.MIN_SHOW_TIME_DELTA) return;                       
+
+        clearTimeout(this.showPanelTimeout);
+        this.setState({
+            cur_hide_num: prev_panel_num,
+            cur_panel_num: num,
+            prev_panel_num: prev_panel_num,
+            section_name: section_name,
+            show_time: time,
+            overlay_left: 0,
+            overlay_opacity: 1
+        });
+
+        this.setCurrentPanelState();
+        this.props.onPanelHide();
+
+        this.showPanelTimeout = setTimeout(function(){
+            self.setState({
+                cur_show_num: self.state.cur_panel_num,
+                overlay_opacity: 0
+            });
             self.props.onPanelShow();
-        } 
-
-        //want to have a cur_hide_num
-        //that is set once the opacity is > 0
-        if(to_opacity > 0) state.cur_hide_num = this.state.prev_panel_num;
-
-        //set the current panel state 
-        //when you know the opacity is at 1 
-        if(to_opacity == 1){
-            this.props.onPanelHide();
-            this.setPanelStateTimeout = setTimeout(function(){
-                self.setCurrentPanelState();
-            }, 550);  
-        } 
-        //else state.is_hiding_panel = false;  
-
-        //check the opacity
-        //instead set to 0 when going from
-        //0 to non 0 
-        if(to_opacity != 0) state.overlay_left = 0;
-        state.overlay_opacity = to_opacity;
-
-        this.setState(state);  
+        }, 800);
     }
-    //--------------------------------- determineCurrentPanelNum
-    determineCurrentPanelNum(scroll_y){  
-        //compare the new cur_panel_num
-        //to this.states's cur_panel_num
-        //before updating it 
-        //to determine the previous panel
-        //and which direction panels are moving  
-        //only want to update the
-        //prev_panel_num when the 
-        //cur_panel_num changes 
-        var prev_panel_num = this.state.prev_panel_num;
-        var cur_panel_num = Math.round(scroll_y/(this.state.change_panel_scroll*2));
-        if(cur_panel_num != this.state.cur_panel_num) prev_panel_num = this.state.cur_panel_num;
-        var section = (cur_panel_num < this.state.experiments.length) ? this.EXPERIMENT : this.PROJECT;
-
-        //also determine the cur_show number
-        //set panel_direction to positive or negative
-        var panel_direction = (cur_panel_num - prev_panel_num)>0 ? 1 : -1;
+    //--------------------------------- open
+    open(){
+        //need to set show_time here
+        //too b/c the open is a type of show
+        //--> we don't want an open to show the 
+        //next panel, but rather the current 
+        //one with its panel info
+        var time = new Date();
+        time = time.getTime(); 
 
         this.setState({
-            cur_panel_num: cur_panel_num, 
-            prev_panel_num: prev_panel_num,
-            panel_direction: panel_direction,
-            section: section
+            is_open: true,
+            cur_show_num: this.state.cur_panel_num,
+            show_time: time
         });
-    }
-    //--------------------------------- scrollToSection
-    scrollToSection(section){  
-        var scroll_y = this.getScrollYOfSection(section);
-        window.scroll(0, scroll_y);
-    }
-    //--------------------------------- getScrollYOfSection
-    getScrollYOfSection(section){ 
-        var scroll_y = 0;
-        //if experiments
-        //simply scroll enough to open
-        if(section.toLowerCase() == this.EXPERIMENT.toLowerCase()) scroll_y = 10;
-        //else if projects
-        //find the scrollY pos you need to 
-        //scroll to by determining the number of
-        //experiments to determine
-        //which index the first experiment resides at
-        else if(section.toLowerCase() == this.PROJECT.toLowerCase()){
-            scroll_y = this.state.experiments.length*this.state.change_panel_scroll*2;   
-        }
-
-        return scroll_y;
+        this.setCurrentPanelState(); 
+        console.log("PanelView ---- open");
+        //this.props.onPanelShow();
+        this.props.onOpen();
     }
     //--------------------------------- setCurrentPanelState
     setCurrentPanelState(){ 
@@ -384,7 +383,7 @@ class PanelView extends React.Component {
         }          
         else cur_panel = this.state.experiments[this.state.cur_panel_num];
 
-        state.section = this.state.section;
+        state.section_name = this.state.section_name;
         state.title = cur_panel.title; 
         state.desc = cur_panel.desc; 
         if(cur_panel.link) state.link = cur_panel.link;
@@ -406,18 +405,20 @@ class PanelView extends React.Component {
                 if(this.style.opacity == 0) self.setState({overlay_left: '100%'});
         });
     }
-    //--------------------------------- updatePanelScroll
-    updatePanelScroll(){
-        var total_panels = this.state.experiments.length + this.state.projects.length;
-        var change_panel_scroll = this.props.screen_height;
-        this.setState({
-            change_panel_scroll: change_panel_scroll,
-            //multiple by two b/c change_panel_scroll 
-            //id where we are fading in the overlay
-            //so change_panel_scroll*2 is where the panel
-            //actually shows
-            total_scroll_height: ((total_panels*2)-1)*change_panel_scroll
-        });   
+    //--------------------------------- loadNextPanelImgs
+    loadNextPanelImgs(){
+        var loading_panel_num = this.state.loading_panel_num + 1;
+        //set back to -1 if greater than num panels
+        if( loading_panel_num > (this.state.experiments.length + this.state.projects.length) ){
+            loading_panel_num = -1;
+        }
+        //upadate the loading_panel_num
+        this.setState({loading_panel_num: loading_panel_num});
+    }
+    //--------------------------------- onPanelImgsLoaded
+    onPanelImgsLoaded(){
+        //update the currently loading image
+        this.loadNextPanelImgs();
     }
 }
 
