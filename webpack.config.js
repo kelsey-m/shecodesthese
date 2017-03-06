@@ -6,7 +6,7 @@ var BUILD_DIR = path.resolve(__dirname, 'src/build');
 
 var config = {
     entry: [
-        //'webpack/hot/dev-server',
+        'webpack/hot/dev-server',
         BUILD_DIR + '/main.jsx'
     ],
     output: {

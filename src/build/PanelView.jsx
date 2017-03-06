@@ -368,8 +368,7 @@ class PanelView extends React.Component {
             show_time: time
         });
         this.setCurrentPanelState(); 
-        console.log("PanelView ---- open");
-        //this.props.onPanelShow();
+
         this.props.onOpen();
     }
     //--------------------------------- setCurrentPanelState
