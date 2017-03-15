@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Project from './Project.jsx';
 import BubbleExperiment from './BubbleExperiment.jsx';
-import ImageExplosionExperiment from './ImageExplosionExperiment.jsx';
+import DelaunayImageEffectExperiment from './DelaunayImageEffectExperiment.jsx';
 import COLORS from './style/COLORS.jsx';
 
 class PanelView extends React.Component {
@@ -78,7 +78,7 @@ class PanelView extends React.Component {
             panel_direction: 1,
             projects: [],
             experiments: [
-                {   ref: ImageExplosionExperiment,
+                {   ref: DelaunayImageEffectExperiment,
                     title: "Image Explosion",
                     desc: "Bitmap manipulation experiment.  Technologies: Javascript, ES7, HTML5, CSS3",
                     link: "",
