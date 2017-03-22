@@ -16,7 +16,7 @@ class PanelView extends React.Component {
     declareConstants(){
         this.EXPERIMENT                 = "Experiment";
         this.PROJECT                    = "Project";
-        this.MIN_DELTA_FOR_SWIPE        = 40;
+        this.MIN_DELTA_FOR_SWIPE        = 20;
         this.MIN_SHOW_TIME_DELTA        = 1000;
 
         this.declareStyleConstants();
@@ -79,10 +79,10 @@ class PanelView extends React.Component {
             projects: [],
             experiments: [
                 {   ref: DelaunayImageEffectExperiment,
-                    title: "Image Explosion",
-                    desc: "Bitmap manipulation experiment.  Technologies: Javascript, ES7, HTML5, CSS3",
-                    link: "",
-                    link_copy: "View on Codepen",
+                    title: "Delaunay Image Effect",
+                    desc: "Image manipulation experiment.  Technologies: Javascript, ES6, HTML5, CSS3",
+                    link: "https://github.com/kelseyvaughn/delaunay-image-effect",
+                    link_copy: "on GitHub",
                     width: "100%",
                     height: "100%"
                 },
@@ -90,7 +90,7 @@ class PanelView extends React.Component {
                     title: "Bubble Motion",
                     desc: "Animation experiment.  Technologies: Javascript, HTML5, CSS3, GSAP",
                     link: "",
-                    link_copy: "View on Codepen",
+                    link_copy: "",
                     width: "100%",
                     height: "100%"
                 }
@@ -140,15 +140,12 @@ class PanelView extends React.Component {
         var self = this;
         this.serverRequest = $.get(this.PROJECTS_SRC, function (result) {
             self.onProjectDataLoaded(result); 
+            self.loadNextPanelImgs();
         }.bind(this));    
 
         this.setWindowListeners();
         this.setCurrentPanelState();
         this.handleOverlayAnimState(); 
-        //!!!!!!!!!!!!!!!!!!!!!!!
-        //may need to set a timeout here
-        //!!!!!!!!!!!!!!!!!!!!!!!
-        this.loadNextPanelImgs();
     }
     //--------------------------------- componentWillReceiveProps
     componentWillReceiveProps(nextProps){
@@ -172,6 +169,7 @@ class PanelView extends React.Component {
         window.addEventListener('touchend', this.onTouchEnd.bind(this), false);
         //and wheel scroll for both
         //browser events
+        window.addEventListener("wheel", this.onMouseWheel.bind(this), false);
         window.addEventListener("mousewheel", this.onMouseWheel.bind(this), false);
         window.addEventListener("DOMMouseScroll", this.onMouseWheel.bind(this), false);
     }
@@ -264,13 +262,12 @@ class PanelView extends React.Component {
     }
     //--------------------------------- onMouseWheel
     onMouseWheel(event){
-        //cross browser wheel delat
-        //event = event ? event : window.event;
+        //cross browser wheel delta
         event = event || window.event;
         //check the delta
         //if greater than MIN_DELTA_FOR_SWIPE
         //change panels
-        var delta_y = (event.wheelDelta || -event.detail);
+        var delta_y = (-event.deltaY || event.wheelDelta || -event.detail);
 
         if(Math.abs(delta_y) < this.MIN_DELTA_FOR_SWIPE) return;
 
@@ -350,7 +347,7 @@ class PanelView extends React.Component {
                 overlay_opacity: 0
             });
             self.props.onPanelShow();
-        }, 800);
+        }, 1000);
     }
     //--------------------------------- open
     open(){

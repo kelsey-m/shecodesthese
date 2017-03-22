@@ -26,7 +26,8 @@ class MainInfo extends React.Component {
         this.SMALL_MARGIN               = 15;
         this.MIN_HEIGHT                 = 150;
         this.MAX_HEIGHT                 = 280;
-        this.SMALL_MAX_HEIGHT           = 280;
+        // this.SMALL_MAX_HEIGHT           = 280;
+        this.SMALL_MAX_HEIGHT           = '35%';
         this.CLOSED_WIDTH               = 460;
         this.SMALL_CLOSED_WIDTH         = '63%';
         this.CLOSED_X                   = this.MARGIN;
@@ -43,6 +44,7 @@ class MainInfo extends React.Component {
                                             paddingLeft: '4em',
                                             paddingRight: '4em',
                                             boxSizing: 'border-box',
+                                            minHeight: 240,
                                             //tween w/ easeOutExpo
                                             WebkitTransition: this.easeOutTrans(this.DEFAULT_TRANS_TIME),
                                             MozTransition: this.easeOutTrans(this.DEFAULT_TRANS_TIME),
@@ -101,12 +103,14 @@ class MainInfo extends React.Component {
                                             margin: 0,
                                             listStyle: 'none',
                                             WebkitPaddingStart: 0,
-                                            MozPaddingStart: 0
+                                            MozPaddingStart: 0,
+                                            WebkitMarginBefore: 0,
+                                            WebkitMarginAfter: 0
         };
         this.OPT_MENU_STYLE              = {
                                             position: 'absolute',
-                                            bottom: 20,
-                                            right: 20,
+                                            bottom: 0,
+                                            right: '1.7em',
                                             display: 'flex',
                                             margin: 0,
                                             listStyle: 'none',
@@ -117,13 +121,16 @@ class MainInfo extends React.Component {
                                             WebkitBoxAlign: 'center',
                                             MsFlexAlign: 'center',
                                             alignItems: 'center',
-                                            justifyContent: 'space-between'
+                                            justifyContent: 'space-between',
+                                            WebkitMarginBefore: 0,
+                                            WebkitMarginAfter: 0
         };
         this.OPT_ITEM_DISABLE_OPACITY    = 0.35;
         this.OPT_ITEM_STYLE              = {   
                                             width: 32,                                        
                                             cursor: 'pointer', 
-                                            opacity: 1                                            
+                                            opacity: 1,
+                                            WebkitTapHighlightColor: 'rgba(0,0,0,0)'                                            
         };
         this.OPT_ITEM_IMG_STYLE         = {
                                             marginLeft: 'auto',
@@ -160,7 +167,7 @@ class MainInfo extends React.Component {
                         <a style={this.SECTION_LINK_STYLE} 
                         onClick={this.onSectionClick.bind(this, "experiment")}>Experiments</a> and <a 
                         style={this.SECTION_LINK_STYLE} 
-                        onClick={this.onSectionClick.bind(this, "project")}>Projects</a> of Software Developer, Kelsey Motley_______
+                        onClick={this.onSectionClick.bind(this, "project")}>Projects</a> of Software Developer, Kelsey Vaughn Motley_______
                     </h1>
                     <ul style={list_style}>
                         <li style={this.LIST_ITEM_STYLE}>
@@ -175,8 +182,24 @@ class MainInfo extends React.Component {
                             <a 
                             style={this.CONNECT_LINK_STYLE} 
                             target="_blank" 
-                            href="https://github.com/kelsey-m">
-                            https://github.com/kelsey-m
+                            href="https://github.com/kelseyvaughn">
+                            https://github.com/kelseyvaughn
+                            </a>
+                        </li>
+                        <li style={this.LIST_ITEM_STYLE}>
+                            <a 
+                            style={this.CONNECT_LINK_STYLE} 
+                            target="_blank" 
+                            href="https://www.npmjs.com/~kelsey">
+                            https://www.npmjs.com/~kelsey
+                            </a>
+                        </li>
+                        <li style={this.LIST_ITEM_STYLE}>
+                            <a 
+                            style={this.CONNECT_LINK_STYLE} 
+                            target="_blank" 
+                            href="https://codepen.io/kelseyvaughn/">
+                            https://codepen.io/kelseyvaughn/
                             </a>
                         </li>
                         <li style={this.LIST_ITEM_STYLE}>
@@ -205,7 +228,7 @@ class MainInfo extends React.Component {
                         <img src="assets/img/max.gif" style={this.OPT_ITEM_IMG_STYLE} width="19" height="19" />
                     </li>
                     <li style={arrow_style} onClick={this.onArrowClick.bind(this)}>
-                        <img src="assets/img/arrow.gif" style={this.OPT_ITEM_IMG_STYLE} width="21" height="13" />
+                        <h1>&rarr;</h1>
                     </li>  
                 </ul>
             </div>
@@ -213,12 +236,10 @@ class MainInfo extends React.Component {
     }
     //--------------------------------- open
     open(){
-        console.log("open");
         this.props.onOpen();
     }
     //--------------------------------- close
     close(){
-        console.log("close");
         this.props.onClose();
     }
     //--------------------------------- determineLogoStyle
@@ -242,7 +263,9 @@ class MainInfo extends React.Component {
         style.opacity = this.state.content_opacity;
 
         //set the correct transition - in or out
-        var transition = (style.opacity === 1) ? this.OPACITY_CONTENT_TRANS_IN : this.OPACITY_CONTENT_TRANS_OUT;
+        var transition = (style.opacity === 1) ? 
+            this.OPACITY_CONTENT_TRANS_IN : 
+            this.OPACITY_CONTENT_TRANS_OUT;
 
         style.WebkitTransition = transition;
         style.MozTransition = transition;
@@ -258,7 +281,8 @@ class MainInfo extends React.Component {
         style.paddingTop = this.state.padding_top;
 
         //padding left for smaller screens
-        if(this.props.screen_width <= 500) style.paddingLeft = style.paddingRight = '2em';
+        if(this.props.screen_width <= 500) 
+            style.paddingLeft = style.paddingRight = '2em';
 
         style.width = this.state.width;
         style.height = this.state.height;
@@ -283,11 +307,17 @@ class MainInfo extends React.Component {
         var style = Object.assign({}, this.OPT_ITEM_STYLE);
         //want to set the scaleY to 1 or -1
         //depending of the open state
-        var transform = this.props.is_open ? 'scaleY(1)' : 'scaleY(-1)'; 
+        var transform = this.props.is_open ? 
+            'rotateZ(-45deg) scaleY(-1) scaleX(-1)' : 
+            'rotateZ(-45deg) scaleX(1) scaleY(1)'; 
         style.WebkitTransform = transform;
         style.MozTransform = transform;
         style.OTransform = transform;
         style.transform = transform;
+
+        style.marginBottom = (!this.props.is_open && (this.props.screen_width <= 700 || 
+            this.props.screen_heigth <= 500))  ? 
+            '0.5em' : '0';
 
         return style;
     }
@@ -299,6 +329,9 @@ class MainInfo extends React.Component {
             style.cursor = 'default';
         }
 
+        //hide altogether for now
+        style.visibility = 'hidden';
+
         return style;
     }
     //--------------------------------- determineMaxStyle
@@ -308,6 +341,10 @@ class MainInfo extends React.Component {
             style.opacity =  this.OPT_ITEM_DISABLE_OPACITY;  
             style.cursor = 'default';  
         }
+        style.marginTop = 5;
+
+        //hide altogether for now
+        style.visibility = 'hidden';
         
         return style;
     }
@@ -486,7 +523,7 @@ class MainInfo extends React.Component {
         //-----------
         to_width = (screen_width <= this.SMALL_MAX_WIDTH) ? 
                     this.SMALL_CLOSED_WIDTH : this.CLOSED_WIDTH; 
-        to_height = (screen_width <= this.SMALL_MAX_WIDTH) ? 
+        to_height = (screen_width <= this.SMALL_MAX_WIDTH || screen_height <= this.SMALL_MAX_WIDTH) ? 
                         this.SMALL_MAX_HEIGHT : this.MAX_HEIGHT;                  
         to_height = is_min ? this.MIN_HEIGHT : to_height;
 

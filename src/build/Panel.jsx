@@ -11,8 +11,8 @@ class Panel extends React.Component {
     }
     //--------------------------------- declareConstants
     declareConstants(){
-        this.ANIM_OFFSET                = 0.1;
-        //this.IDLE                       = "idle";
+        this.ANIM_OFFSET                = 0.08;
+        
         this.declareStyleConstants();
     }
     //--------------------------------- declareStyleConstants
@@ -81,13 +81,21 @@ class Panel extends React.Component {
         //to be centerd horizontallly
         if(child_style.width != '100%') to_x = (this.props.stage_width - parseInt(child_style.width))/2;
 
-        child_style.opacity = this.state.child_opacity;        
+        child_style.opacity = this.state.child_opacity; 
 
-        //set the transform property
-        child_style.WebkitTransform = 'translate3d(' + to_x + 'px, ' + to_y + 'px, 0)';
-        child_style.MozTransform = 'translate3d(' + to_x + 'px, ' + to_y + 'px, 0)';
-        child_style.OTransform = 'translate3d(' + to_x + 'px, ' + to_y + 'px, 0)';
-        child_style.transform = 'translate3d(' + to_x + 'px, ' + to_y + 'px, 0)';
+        var to_scale = to_y === 0 ? 1 : 1.08;      
+
+        //removed the translate (y) that was here previous
+        //offseting the child in the y direction 
+        //and anmating up when its hows => scale effect is nicer
+        child_style.WebkitTransform = 'scale3d(' + 
+        to_scale + ',' + to_scale + ', 1)';
+        child_style.MozTransform = 'scale3d(' + 
+        to_scale + ',' + to_scale + ', 1)';
+        child_style.OTransform = 'scale3d(' + 
+        to_scale + ',' + to_scale + ', 1)';
+        child_style.transform = 'scale3d(' + 
+        to_scale + ',' + to_scale + ', 1)';
 
         return child_style;
     }
@@ -96,7 +104,7 @@ class Panel extends React.Component {
         if(!opacity_delay) opacity_delay = '';
         //set the transition to 
         //tween w/ easeOutExpo
-        var css_transition = ' 2s cubic-bezier(0.190, 1.000, 0.220, 1.000)';
+        var css_transition = ' 1.9s cubic-bezier(0.190, 1.000, 0.220, 1.000)';
         var opacity_transition = 'opacity 0.5s';
         css_transition = css_transition + ', ' + opacity_transition;
         child_style.WebkitTransition = '-webkit-transform' + css_transition;

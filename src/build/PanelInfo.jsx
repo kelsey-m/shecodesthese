@@ -109,7 +109,7 @@ class PanelInfo extends React.Component {
                     {this.state.cur_section}<span style={this.NORMAL_FONT}>: {this.state.cur_title}</span>
                 </h2>
                 <p ref="desc" style={desc_style}>{this.state.cur_desc}
-                    &nbsp; <a style={this.LINK_STYLE} href={this.state.cur_link} >{this.state.cur_link_copy}</a>
+                    &nbsp; &nbsp; &rarr; <a style={this.LINK_STYLE} href={this.state.cur_link} >{this.state.cur_link_copy}</a>
                 </p>
             </div>
         );
@@ -298,7 +298,6 @@ class PanelInfo extends React.Component {
         }; 
 
         //delay setting is open
-        //if(!this.state.is_open && nextProps.is_open) {
         if(!this.props.is_open && nextProps.is_open) {
             state.first_show = true;
             clearTimeout(this.isOpenTimeout);
@@ -313,9 +312,6 @@ class PanelInfo extends React.Component {
 
         //handle showing and hiding
         if( !this.props.is_open && nextProps.is_open && nextProps.show && 
-        //if( !this.props.show && nextProps.show && 
-        //if( nextProps.show &&
-        //if( nextProps.is_open && nextProps.show && 
             !this.state.desc_is_hiding && !this.state.title_is_hiding ){
             state = Object.assign(state, this.updateInfo());
             state.is_show_ready = true;
@@ -398,7 +394,6 @@ class PanelInfo extends React.Component {
         state.desc_ty = this.getDescTy();
         state.hidden_desc_ty = state.desc_ty + Math.round(this.ANIM_OFFSET/3);
         state.desc_ty = state.hidden_desc_ty;
-        //state.desc_transition = this.DESC_TRANSITION;
 
         state.is_show_ready = false;
 
@@ -412,7 +407,7 @@ class PanelInfo extends React.Component {
             //and set the translate y 
             //values to their destinations
             self.completeShowInfo();
-        }, 300);
+        }, 200);
     }
     //--------------------------------- completeShowInfo
     completeShowInfo(){

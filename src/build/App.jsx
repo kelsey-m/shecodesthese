@@ -38,6 +38,8 @@ class App extends React.Component {
     }  
     //--------------------------------- render    
     render(){
+        console.log("this.state.screen_width = " + this.state.screen_width);
+        console.log("this.state.screen_height = " + this.state.screen_height);
         return (
             <div>
                 <MainInfo ref="mainInfo" 
@@ -89,8 +91,11 @@ class App extends React.Component {
     }
     //--------------------------------- onPanelViewOpen
     onPanelViewOpen() {
-
-        this.setState({panel_view_is_open: true, info_show: true, info_hide: false});
+        this.setState({
+            panel_view_is_open: true, 
+            info_show: true, 
+            info_hide: false
+        });
     }
     //--------------------------------- onPanelViewClose
     onPanelViewClose() {

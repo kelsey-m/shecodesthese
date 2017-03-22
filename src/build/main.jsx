@@ -22,11 +22,11 @@ function setBaseStyles(){
     document.body.style.margin = 0;
     document.body.style.fontFamily = "Helvetica, Arial, sans-serif";
     document.body.style.fontSize = (window.innerWidth >= 600) ? "16px" : "13px";
-    document.body.style.margin = 0;
-    document.body.style.padding = 0;
+    document.body.style.margin = document.documentElement.style.margin = 0;
+    document.body.style.padding = document.documentElement.style.padding = 0;
     document.body.style.color = COLORS.DRK_GRAY;
     document.body.style.width = document.documentElement.style.width = '100%';
     document.body.style.height = document.documentElement.style.height = '100%';
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = document.documentElement.style.overflow ='hidden';
     app.style.width = '100%';
 }
