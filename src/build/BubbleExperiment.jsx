@@ -50,11 +50,6 @@ class BubbleExperiment extends React.Component {
         //so that react doesnt know about it
         this.createPlugin();
         this.initPlugin();
-
-        //listen for idle event
-        //move this component off the stage when 
-        //the panel is idle
-        this.handlePanelIdle();
     }
     //--------------------------------- createPlugin
     createPlugin(){
@@ -88,14 +83,6 @@ class BubbleExperiment extends React.Component {
             ],
             num_max: 30,
             num_min: 20
-        });
-    }
-    //--------------------------------- handlePanelIdle
-    handlePanelIdle(){
-        var self = this;
-        var el = $(ReactDOM.findDOMNode(this));
-        $(el).on("idle", function(){
-            self.setState({left: self.IDLE_LEFT});
         });
     }
     //--------------------------------- componentDidUpdate

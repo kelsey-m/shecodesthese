@@ -20,7 +20,7 @@ class PanelInfo extends React.Component {
         //ease out expo
         this.TRANS                      = 'all 1200ms cubic-bezier(0.190, 1.000, 0.220, 1.000)';
         this.COPY_TRANS                 = ' 1500ms cubic-bezier(0.190, 1.000, 0.220, 1.000)';
-        this.OPACITY_COPY_TRANS         = 'opacity 250ms linear';
+        this.OPACITY_COPY_TRANS         = 'opacity 150ms linear';
         this.ANIM_OFFSET                = 40;
         this.TITLE_Y                    = 44;
         this.HIDDEN_TITLE_Y             = this.TITLE_Y + this.ANIM_OFFSET;
@@ -103,13 +103,18 @@ class PanelInfo extends React.Component {
         var title_style = this.determineTitleStyle();
         var desc_style = this.determineDescStyle();
 
+        var before_link = (
+            <span>&nbsp; &nbsp; &rarr;</span>
+        );
+        if(this.state.cur_link == "") before_link = (<span></span>);
+
         return (
             <div style={style}>
                 <h2 ref="title" style={title_style}>
                     {this.state.cur_section}<span style={this.NORMAL_FONT}>: {this.state.cur_title}</span>
                 </h2>
                 <p ref="desc" style={desc_style}>{this.state.cur_desc}
-                    &nbsp; &nbsp; &rarr; <a style={this.LINK_STYLE} href={this.state.cur_link} >{this.state.cur_link_copy}</a>
+                    {before_link} <a style={this.LINK_STYLE} href={this.state.cur_link} >{this.state.cur_link_copy}</a>
                 </p>
             </div>
         );
@@ -335,19 +340,14 @@ class PanelInfo extends React.Component {
     }
     //--------------------------------- componentDidUpdate
     componentDidUpdate(prevProps, prevState){
-        if(this.state.is_show_ready) this.showInfo();
+
+        if(this.state.is_show_ready && this.state.cur_title != "") this.showInfo();
 
         //if copyt updated different
         if(prevState.title != this.state.title) {
-            if(prevState.title != ""){
-               this.hideInfo(); 
-            } 
-            //otherwise update the desc_ty
-            else {
-                this.setState({
-                    desc_ty: this.getDescTy() + Math.round(this.ANIM_OFFSET/3)
-                });
-            }
+            this.setState({
+                desc_ty: this.getDescTy() + Math.round(this.ANIM_OFFSET/3)
+            });
         }
     }
     //--------------------------------- hideInfo
@@ -379,10 +379,8 @@ class PanelInfo extends React.Component {
     showInfo(){
         var self = this;
         clearTimeout(this.showTimeout);
-        clearTimeout(this.beforeShowTimeout);
         //remove the transition here
         var state = {desc_transition: 'none'};
-        this.setState(state);
 
         //need to set the ty to the hidden ty here
         //and desc opavity. to 0
@@ -394,12 +392,9 @@ class PanelInfo extends React.Component {
         state.desc_ty = this.getDescTy();
         state.hidden_desc_ty = state.desc_ty + Math.round(this.ANIM_OFFSET/3);
         state.desc_ty = state.hidden_desc_ty;
-
         state.is_show_ready = false;
 
-        this.beforeShowTimeout = setTimeout(function(){
-            self.setState(state);
-        }, 100);
+        this.setState(state);
 
         this.showTimeout = setTimeout(function(){
             //re-add the transition here

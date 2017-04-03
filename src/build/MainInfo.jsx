@@ -14,6 +14,8 @@ class MainInfo extends React.Component {
         this.X_SMALL_MAX_WIDTH          = 400;
         this.SMALL_MAX_WIDTH            = 700;
         this.MEDIUM_MAX_WIDTH           = 1100;
+        this.EXPERIMENT                 = "Experiment";
+        this.PROJECT                    = "Project";
 
         this.declareStyleConstants();
     }
@@ -52,9 +54,9 @@ class MainInfo extends React.Component {
                                             transition: this.easeOutTrans(this.DEFAULT_TRANS_TIME)
         };
         this.OPACITY_CONTENT_TRANS_OUT  = 'opacity 100ms linear';  
-        this.OPACITY_CONTENT_TRANS_IN   = 'opacity 150ms linear 150ms';    
+        this.OPACITY_CONTENT_TRANS_IN   = 'opacity 250ms linear 150ms';    
         this.CONTENT_STYLE              = {
-                                            opacity: 1,
+                                            opacity: 0,
                                             WebkitTransform: 'scale3d(1,1,1)',
                                             MozTransform: 'scale3d(1,1,1)',
                                             OTransform: 'scale3d(1,1,1)',
@@ -75,10 +77,10 @@ class MainInfo extends React.Component {
                                             MozTransform: 'scale3d(1,1,1)',
                                             OTransform: 'scale3d(1,1,1)',
                                             transform: 'scale3d(1,1,1)',
-                                            WebkitTransition: this.easeOutTrans('0.5s'),
-                                            MozTransition: this.easeOutTrans('0.5s'),
-                                            OTransition: this.easeOutTrans('0.5s'),
-                                            transition: this.easeOutTrans('0.5s') 
+                                            // WebkitTransition: this.easeOutTrans('0.9s', '1.2s'),
+                                            // MozTransition: this.easeOutTrans('0.9s', '1.2s'),
+                                            // OTransition: this.easeOutTrans('0.9s', '1.2s'),
+                                            // transition: this.easeOutTrans('0.9s', '1.2s') 
         };
         this.HEADER_STYLE               = {
                                             width: '90%',
@@ -116,7 +118,7 @@ class MainInfo extends React.Component {
                                             listStyle: 'none',
                                             WebkitPaddingStart: 0,
                                             MozPaddingStart: 0,
-                                            width: 120,
+                                            width: '5em',
                                             WebkitAlignItems: 'center',
                                             WebkitBoxAlign: 'center',
                                             MsFlexAlign: 'center',
@@ -142,6 +144,7 @@ class MainInfo extends React.Component {
         this.state = { 
             padding_top: '12%',
             logo_opacity: 0,
+            content_opacity: 0,
             width: this.dims(this.props.is_open, this.props.is_min).width,
             height: this.dims(this.props.is_open, this.props.is_min).height,
             x: this.pos(this.props.is_open, this.props.is_min).x,
@@ -156,8 +159,7 @@ class MainInfo extends React.Component {
         var logo_style = this.determineLogoStyle();
         var list_style = this.determineListStyle();
         var arrow_style = this.determineArrowStyle();
-        var min_style = this.determineMinStyle();
-        var max_style = this.determineMaxStyle();
+        var next_style = this.determineNextStyle();
 
         return (
             <div style={style}>
@@ -165,9 +167,9 @@ class MainInfo extends React.Component {
                     <img ref="logo" style={logo_style} src="assets/img/she-codes-these@2x.png"/>
                     <h1 style={this.HEADER_STYLE}>
                         <a style={this.SECTION_LINK_STYLE} 
-                        onClick={this.onSectionClick.bind(this, "experiment")}>Experiments</a> and <a 
+                        onClick={this.onSectionClick.bind(this, this.EXPERIMENT)}>Experiments</a> and <a 
                         style={this.SECTION_LINK_STYLE} 
-                        onClick={this.onSectionClick.bind(this, "project")}>Projects</a> of Software Developer, Kelsey Vaughn Motley_______
+                        onClick={this.onSectionClick.bind(this, this.PROJECT)}>Projects</a> of Software Developer, Kelsey Vaughn Motley_______
                     </h1>
                     <ul style={list_style}>
                         <li style={this.LIST_ITEM_STYLE}>
@@ -221,12 +223,9 @@ class MainInfo extends React.Component {
                     </ul>
                 </div>
                 <ul style={this.OPT_MENU_STYLE}>
-                    <li style={min_style} onClick={this.onMinClick.bind(this)}>
-                        <img src="assets/img/min.gif" style={this.OPT_ITEM_IMG_STYLE} width="19" height="5" />
+                    <li style={next_style} onClick={this.onNextClick.bind(this)}>
+                        next
                     </li>                                      
-                    <li style={max_style} onClick={this.onMaxClick.bind(this)}>
-                        <img src="assets/img/max.gif" style={this.OPT_ITEM_IMG_STYLE} width="19" height="19" />
-                    </li>
                     <li style={arrow_style} onClick={this.onArrowClick.bind(this)}>
                         <h1>&rarr;</h1>
                     </li>  
@@ -263,7 +262,7 @@ class MainInfo extends React.Component {
         style.opacity = this.state.content_opacity;
 
         //set the correct transition - in or out
-        var transition = (style.opacity === 1) ? 
+        var transition = (style.opacity == 1) ? 
             this.OPACITY_CONTENT_TRANS_IN : 
             this.OPACITY_CONTENT_TRANS_OUT;
 
@@ -321,31 +320,16 @@ class MainInfo extends React.Component {
 
         return style;
     }
-    //--------------------------------- determineMinStyle
-    determineMinStyle(){
+    //--------------------------------- determineNextStyle
+    determineNextStyle(){
         var style = Object.assign({}, this.OPT_ITEM_STYLE);
+        style.textDecoration = 'underline';
+
         if(this.props.is_min || this.props.is_open){
-            style.opacity =  this.OPT_ITEM_DISABLE_OPACITY;
+            style.opacity =  0;
             style.cursor = 'default';
         }
 
-        //hide altogether for now
-        style.visibility = 'hidden';
-
-        return style;
-    }
-    //--------------------------------- determineMaxStyle
-    determineMaxStyle(){
-        var style = Object.assign({}, this.OPT_ITEM_STYLE);
-        if(!this.props.is_min || this.props.is_open) {
-            style.opacity =  this.OPT_ITEM_DISABLE_OPACITY;  
-            style.cursor = 'default';  
-        }
-        style.marginTop = 5;
-
-        //hide altogether for now
-        style.visibility = 'hidden';
-        
         return style;
     }
     //--------------------------------- componentWillMount
@@ -361,6 +345,11 @@ class MainInfo extends React.Component {
         $(logo).on("load",function(event){
             self.onLogoLoaded();
         });
+
+        //animate in content
+        setTimeout(function(){
+            self.setState({content_opacity: 1});
+        }, 400);
     }
     //--------------------------------- onLogoLoaded
     onLogoLoaded(){
@@ -460,13 +449,8 @@ class MainInfo extends React.Component {
         return false;
     }
     //--------------------------------- onMinClick
-    onMinClick(){
-        this.props.onMin();
-        return false;
-    }
-    //--------------------------------- onMaxClick
-    onMaxClick(){
-        this.props.onMax();
+    onNextClick(){
+        this.props.onNext();
         return false;
     }
     //--------------------------------- onArrowClick

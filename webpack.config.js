@@ -29,7 +29,9 @@ var config = {
             "window.$": "jquery",
             "window.jQuery": "jquery",
             TweenLite: "gsap",
-            "window.TweenLite": "gsap"
+            "window.TweenLite": "gsap",
+            paper: "paper",
+            "window.paper": "paper"
         })
     ],
     watch: true

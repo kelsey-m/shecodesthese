@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Project from './Project.jsx';
-import BubbleExperiment from './BubbleExperiment.jsx';
+import FloatingDelaunayPolygonsExperiment from './FloatingDelaunayPolygonsExperiment.jsx';
 import DelaunayImageEffectExperiment from './DelaunayImageEffectExperiment.jsx';
+import BubbleExperiment from './BubbleExperiment.jsx';
 import COLORS from './style/COLORS.jsx';
 
 class PanelView extends React.Component {
@@ -72,15 +73,23 @@ class PanelView extends React.Component {
         this.state = { 
             is_open: this.props.is_open,
             prev_panel_num: -1,
-            cur_panel_num: 0,
+            cur_panel_num: -1,
             cur_show_num: -1,
             cur_hide_num: -1,
             panel_direction: 1,
             projects: [],
             experiments: [
+                {   ref: FloatingDelaunayPolygonsExperiment,
+                    title: "Floating Polygons",
+                    desc: "Animation experiment.  Technologies: Javascript, ES6, Paper.js, Node.js",
+                    link: "https://github.com/kelseyvaughn/floating-delaunay-polygons",
+                    link_copy: "on GitHub",
+                    width: "100%",
+                    height: "100%"
+                },
                 {   ref: DelaunayImageEffectExperiment,
                     title: "Delaunay Image Effect",
-                    desc: "Image manipulation experiment.  Technologies: Javascript, ES6, HTML5, CSS3",
+                    desc: "Image manipulation experiment. (Not yet optimized for mobile - view on desktop) Technologies: Javascript, ES6, Paper.js, Node.js,",
                     link: "https://github.com/kelseyvaughn/delaunay-image-effect",
                     link_copy: "on GitHub",
                     width: "100%",
@@ -97,7 +106,6 @@ class PanelView extends React.Component {
             ],
             overlay_opacity: 0,
             overlay_left: '100%',
-            panel_info: [],
             section_name: this.EXPERIMENT,
             touch_start_y: -1,
             show_time: null,
@@ -154,7 +162,9 @@ class PanelView extends React.Component {
         //if opened from closed
         if(!this.state.is_open && nextProps.is_open) this.open();
 
-        if(nextProps.section != this.props.section) this.scrollToSection(nextProps.section);   
+        if(nextProps.section != this.props.section) this.showSection(nextProps.section);  
+
+        if(nextProps.show_next_panel && !this.props.show_next_panel) this.showNextPanel();
 
         this.setState(state);
     }
@@ -287,6 +297,7 @@ class PanelView extends React.Component {
     }
     //--------------------------------- onSwipeDown
     onSwipeDown(){
+        if(!this.state.is_open) this.open();
         if(this.state.is_open) this.showPrevPanel();
     }
     //--------------------------------- showNextPanel
@@ -328,18 +339,21 @@ class PanelView extends React.Component {
         if(this.state.show_time && (time - this.state.show_time) < this.MIN_SHOW_TIME_DELTA) return;                       
 
         clearTimeout(this.showPanelTimeout);
-        this.setState({
-            cur_hide_num: prev_panel_num,
-            cur_panel_num: num,
-            prev_panel_num: prev_panel_num,
-            section_name: section_name,
-            show_time: time,
-            overlay_left: 0,
-            overlay_opacity: 1
-        });
 
-        this.setCurrentPanelState();
+        if(this.state.cur_panel_num != num){
+            this.setState({
+                cur_hide_num: prev_panel_num,
+                cur_panel_num: num,
+                prev_panel_num: prev_panel_num,
+                section_name: section_name,
+                show_time: time,
+                overlay_left: 0,
+                overlay_opacity: 1
+            });
+        }
+
         this.props.onPanelHide();
+        this.setCurrentPanelState();
 
         this.showPanelTimeout = setTimeout(function(){
             self.setState({
@@ -348,6 +362,27 @@ class PanelView extends React.Component {
             });
             self.props.onPanelShow();
         }, 1000);
+    }
+    //--------------------------------- showSection
+    showSection(section){
+        var self = this;
+        var panel_num;
+
+        //find the 1st panel num
+        //of the section
+        if(section == this.EXPERIMENT) panel_num = 0;
+        else if(section == this.PROJECT) panel_num = this.state.experiments.length;
+
+        if(this.state.cur_panel_num != panel_num){
+            this.open();
+            this.showPanel(panel_num); 
+        } 
+        else{
+            if(!this.state.is_open) this.setCurrentPanelState(); 
+            setTimeout(function(){
+                if(!self.state.is_open) self.open();
+            }, 100);
+        }
     }
     //--------------------------------- open
     open(){
@@ -373,11 +408,13 @@ class PanelView extends React.Component {
         //call the onchange function 
         //with the current data as an arg
         var state = {};
-        var cur_panel;
+        var cur_panel = 0;
         if(this.state.cur_panel_num > (this.state.experiments.length-1)){
             cur_panel = this.state.projects[this.state.cur_panel_num - this.state.experiments.length]; 
         }          
         else cur_panel = this.state.experiments[this.state.cur_panel_num];
+
+        if(!cur_panel) cur_panel = 0; 
 
         state.section_name = this.state.section_name;
         state.title = cur_panel.title; 
@@ -413,6 +450,9 @@ class PanelView extends React.Component {
     }
     //--------------------------------- onPanelImgsLoaded
     onPanelImgsLoaded(){
+        //for the first one show the panel
+        if(this.state.cur_panel_num < 0) this.setState({cur_panel_num: 0}); 
+
         //update the currently loading image
         this.loadNextPanelImgs();
     }

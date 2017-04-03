@@ -33,13 +33,13 @@ class App extends React.Component {
             info_title: "",
             info_desc: "",
             info_link: "",
-            info_link_copy: ""        
+            info_link_copy: "",
+            section: "",
+            show_next_panel: false        
         };
     }  
     //--------------------------------- render    
     render(){
-        console.log("this.state.screen_width = " + this.state.screen_width);
-        console.log("this.state.screen_height = " + this.state.screen_height);
         return (
             <div>
                 <MainInfo ref="mainInfo" 
@@ -49,8 +49,7 @@ class App extends React.Component {
                     is_min={this.state.info_is_min}
                     onOpen={this.onPanelViewClose.bind(this)}
                     onClose={this.onPanelViewOpen.bind(this)}
-                    onMin={this.onInfoMin.bind(this)}
-                    onMax={this.onInfoMax.bind(this)}
+                    onNext={this.onShowNextPanel.bind(this)}
                     onSectionClick={this.showSection.bind(this)} />
                 <PanelView ref="panelView" 
                     screen_width={this.state.screen_width} 
@@ -60,7 +59,8 @@ class App extends React.Component {
                     onPanelShow={this.onPanelShow.bind(this)}
                     onPanelHide={this.onPanelHide.bind(this)}
                     onPanelChange={this.onPanelChange.bind(this)}
-                    section={this.state.section} />  
+                    section={this.state.section}
+                    show_next_panel={this.state.show_next_panel} />  
                 <PanelInfo 
                     is_open={this.state.panel_view_is_open}
                     screen_width={this.state.screen_width}
@@ -79,6 +79,10 @@ class App extends React.Component {
     //--------------------------------- componentDidMount
     componentDidMount() {
         this.initWindow();
+    }
+    //--------------------------------- componentDidUpdate
+    componentDidUpdate(prevProps, prevState) {
+        if(this.state.show_next_panel) this.setState({show_next_panel: false});
     }
     //--------------------------------- initWindow
     initWindow() {
@@ -101,13 +105,12 @@ class App extends React.Component {
     onPanelViewClose() {
         this.setState({panel_view_is_open: false});
     }
-    //--------------------------------- onInfoMin
-    onInfoMin() {
-        this.setState({info_is_min: true});
-    }
-    //--------------------------------- onInfoMax
-    onInfoMax() {
-        this.setState({info_is_min: false});
+    //--------------------------------- onShowNextPanel
+    onShowNextPanel(){
+        //set show_next panel to true
+        //and then on component did update
+        //is set to false
+        this.setState({show_next_panel: true});
     }
     //--------------------------------- onPanelShow
     onPanelShow() {

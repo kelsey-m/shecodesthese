@@ -44,7 +44,7 @@ class Panel extends React.Component {
             show_on_active: this.props.show_on_active,
             child_top: '100%',
             child_opacity: 0,
-            child_y: 0
+            child_y: this.ANIM_OFFSET
         };
     }
     //--------------------------------- render
@@ -143,7 +143,7 @@ class Panel extends React.Component {
         //set show on active only aplies to the first
         //activation - so to false once it has
         //been deactivated
-        if(this.state.show_on_active && !nextProps.is_active){
+        if(this.state.show_on_active && !nextProps.is_active && this.props.is_active){
             state.show_on_active = false;   
         }
 
